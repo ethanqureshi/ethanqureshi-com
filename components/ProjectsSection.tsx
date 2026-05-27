@@ -35,8 +35,7 @@ export default function ProjectsSection() {
               className="font-display font-black uppercase leading-[0.95] text-white"
               style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)" }}
             >
-              What
-              <br />I&apos;ve Built
+              What I&apos;ve Built
             </h2>
           </Reveal>
           <div />
