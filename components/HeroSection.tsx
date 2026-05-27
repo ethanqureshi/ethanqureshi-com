@@ -89,7 +89,7 @@ export default function HeroSection() {
           className="font-body text-[13px] mb-9"
           style={{ color: "var(--text-2)", opacity: 0, transform: "translateY(20px)" }}
         >
-          HP Tech Ventures · JPMorganChase · Park Lane · MatPad
+          HdL Companies · HP Tech Ventures · JPMorganChase · Park Lane · MatPad
         </p>
 
         <div
