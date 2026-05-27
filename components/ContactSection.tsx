@@ -49,6 +49,13 @@ export default function ContactSection() {
             Talk
           </h2>
           <a
+            href="mailto:ethanqureshi7@gmail.com"
+            className="block mt-6 font-body text-[13px] transition-colors duration-200 hover:text-white"
+            style={{ color: "var(--text-2)" }}
+          >
+            ethanqureshi7@gmail.com
+          </a>
+          <a
             href="https://linkedin.com/in/ethanqureshi"
             target="_blank"
             rel="noopener noreferrer"

@@ -36,7 +36,7 @@ export default function ProjectsSection() {
               style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)" }}
             >
               What
-              <br />I Build
+              <br />I&apos;ve Built
             </h2>
           </Reveal>
           <div />

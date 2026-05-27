@@ -17,7 +17,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Ethan Qureshi",
   description:
-    "Division I Wrestler at Cornell University. Founder of MatPad. Finance & technology.",
+    "Cornell wrestler, founder of MatPad, building at the intersection of AI and finance.",
 };
 
 export default function RootLayout({
