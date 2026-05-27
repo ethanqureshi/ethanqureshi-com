@@ -12,21 +12,20 @@ interface ExperienceEntry {
 
 const entries: ExperienceEntry[] = [
   {
-    year: "2024",
-    company: "HP Tech Ventures",
-    role: "Venture Capital Analyst",
+    year: "2026",
+    company: "HdL Companies",
+    role: "Finance & Corporate Development Summer Analyst",
     bullets: [
-      "Delivered in-depth market analysis across AI-enabled productivity tools, spotlighting a sector projected to reach $632B by 2028 at a 29% CAGR, identifying 3+ high-potential growth verticals and outlining key competitive risks and investment implications.",
-      "Sourced and evaluated 30+ early-stage startups, including companies with $100M+ in funding and $1B+ valuations; produced 5 detailed investment summaries assessing go-to-market fit, competitive positioning, and strategic partnership opportunities.",
+      "Incoming Summer 2026.",
     ],
   },
   {
-    year: "2025",
-    company: "JPMorganChase & Co.",
-    role: "Global Finance & Business Management Summer Analyst",
+    year: "2026",
+    company: "MatPad",
+    role: "Founder",
     bullets: [
-      "Selected as 1 of 332 fellows from 18,000+ applicants for JPMC's competitive Summer Fellowship Program; shadowed Corporate Controllers across regulatory reporting, business strategy, and financial analysis in the Global Finance division.",
-      "Developed and presented a strategic marketing plan to drive Chase Wealth Plan app engagement among younger demographics, proposing AI-powered reminders, gamified financial literacy modules, and social community integration.",
+      "Founded matpad.app, a full-stack wrestling camp management platform built on Next.js, React, Supabase, and Stripe Connect, consolidating the fragmented tools coaches rely on into one unified administrative system for camp directors.",
+      "Designed and shipped a complete product suite including online registration, automated payment processing, roster management, one-click parent email communication, digital waivers, coach profile pages, and a public camp directory.",
     ],
   },
   {
@@ -39,12 +38,21 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    year: "2026",
-    company: "MatPad",
-    role: "Founder",
+    year: "2025",
+    company: "JPMorganChase & Co.",
+    role: "Global Finance & Business Management Summer Analyst",
     bullets: [
-      "Founded matpad.app, a full-stack wrestling camp management platform built on Next.js, React, Supabase, and Stripe Connect, consolidating the fragmented tools coaches rely on into one unified administrative system for camp directors.",
-      "Designed and shipped a complete product suite including online registration, automated payment processing, roster management, one-click parent email communication, digital waivers, coach profile pages, and a public camp directory.",
+      "Selected as 1 of 332 fellows from 18,000+ applicants for JPMC's competitive Summer Fellowship Program; shadowed Corporate Controllers across regulatory reporting, business strategy, and financial analysis in the Global Finance division.",
+      "Developed and presented a strategic marketing plan to drive Chase Wealth Plan app engagement among younger demographics, proposing AI-powered reminders, gamified financial literacy modules, and social community integration.",
+    ],
+  },
+  {
+    year: "2024",
+    company: "HP Tech Ventures",
+    role: "Venture Capital Analyst",
+    bullets: [
+      "Delivered in-depth market analysis across AI-enabled productivity tools, spotlighting a sector projected to reach $632B by 2028 at a 29% CAGR, identifying 3+ high-potential growth verticals and outlining key competitive risks and investment implications.",
+      "Sourced and evaluated 30+ early-stage startups, including companies with $100M+ in funding and $1B+ valuations; produced 5 detailed investment summaries assessing go-to-market fit, competitive positioning, and strategic partnership opportunities.",
     ],
   },
 ];
