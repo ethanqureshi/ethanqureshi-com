@@ -19,9 +19,7 @@ export default function BioSection() {
             className="font-display font-black uppercase leading-[0.95] text-white"
             style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)" }}
           >
-            About
-            <br />
-            Me
+            About Me
           </h2>
         </Reveal>
 

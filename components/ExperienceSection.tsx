@@ -163,9 +163,7 @@ export default function ExperienceSection() {
               className="font-display font-black uppercase leading-[0.95] text-white"
               style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)" }}
             >
-              The
-              <br />
-              Work
+              The Work
             </h2>
           </Reveal>
           <div />
