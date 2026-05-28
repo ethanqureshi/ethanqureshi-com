@@ -18,10 +18,10 @@ const entries: ExperienceEntry[] = [
     companyUrl: "https://www.linkedin.com/company/10x-app",
     role: "Growth & Creator Partnerships",
     bullets: [
-      "Working on FitAI (fitai.so), an AI-powered workout planner on the iOS App Store.",
+      "Working on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
       "Built a fully automated Instagram carousel pipeline using Claude Code, Higgsfield CLI, and Node.js — producing 30+ branded slideshows from brief to finished asset. Developed viral-format content systems informed by competitor research and direct founder feedback. Generated AI UGC transformation videos using Higgsfield Seedance 2.0 with custom-trained character models.",
       "Managing a network of 20+ contracted creators posting across TikTok, Instagram, YouTube, and Facebook. Overseeing content approval workflow, creator onboarding calls, and platform compliance via Discord.",
-      "Collaborating on content strategy, hook frameworks, and copy direction. Building toward managing FitAI's social profiles with a target of 3+ posts daily.",
+      "Collaborating on content strategy, hook frameworks, and copy direction. Building toward managing Fit AI's social profiles with a target of 3+ posts daily.",
     ],
   },
   {
@@ -29,7 +29,9 @@ const entries: ExperienceEntry[] = [
     company: "HdL Companies",
     role: "Finance & Corporate Development",
     bullets: [
-      "Starting June 2026",
+      "Supporting finance, accounting, and corporate development functions at a B2G SaaS firm serving 900+ local government clients across the United States.",
+      "Assisting with financial analysis, contract review, and strategic initiatives under the direction of the CFO.",
+      "Leveraging AI tools to streamline internal workflows and accelerate financial analysis.",
     ],
   },
   {
