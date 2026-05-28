@@ -53,12 +53,12 @@ export default function BioSection() {
               investment banking have shaped a genuine passion for building.
             </p>
             <p>
-              I am currently building MatPad and other AI-native products,
-              focused on creating tools that drive efficiency, productivity, and
-              real value for the people who use them. I am actively seeking
-              opportunities to build at the frontier of AI — whether founding
-              something, joining a high-conviction early-stage team, or
-              shipping products that create meaningful impact.
+              I am currently working at the intersection of finance and AI,
+              supporting corporate development at HdL Companies while driving
+              growth for Fit AI, an AI-powered fitness app. I am actively
+              seeking opportunities to build at the frontier of AI, whether
+              founding something, joining a high-conviction early-stage team,
+              or shipping products that create meaningful impact.
             </p>
           </div>
         </Reveal>
