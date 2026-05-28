@@ -6,11 +6,24 @@ import Reveal from "./Reveal";
 interface ExperienceEntry {
   year: string;
   company: string;
+  companyUrl?: string;
   role: string;
   bullets: string[];
 }
 
 const entries: ExperienceEntry[] = [
+  {
+    year: "2026",
+    company: "10x",
+    companyUrl: "https://www.linkedin.com/company/10x-app",
+    role: "Growth & Creator Partnerships",
+    bullets: [
+      "Working on FitAI (fitai.so), an AI-powered workout planner on the iOS App Store.",
+      "Built a fully automated Instagram carousel pipeline using Claude Code, Higgsfield CLI, and Node.js — producing 30+ branded slideshows from brief to finished asset. Developed viral-format content systems informed by competitor research and direct founder feedback. Generated AI UGC transformation videos using Higgsfield Seedance 2.0 with custom-trained character models.",
+      "Managing a network of 20+ contracted creators posting across TikTok, Instagram, YouTube, and Facebook. Overseeing content approval workflow, creator onboarding calls, and platform compliance via Discord.",
+      "Collaborating on content strategy, hook frameworks, and copy direction. Building toward managing FitAI's social profiles with a target of 3+ posts daily.",
+    ],
+  },
   {
     year: "2026",
     company: "HdL Companies",
@@ -114,7 +127,18 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
             {entry.year}
           </p>
           <p className="font-display font-black uppercase text-white text-[15px] md:text-[16px] leading-tight mb-1">
-            {entry.company}
+            {entry.companyUrl ? (
+              <a
+                href={entry.companyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-70 transition-opacity duration-200"
+              >
+                {entry.company}
+              </a>
+            ) : (
+              entry.company
+            )}
           </p>
           <p
             className="font-body text-[11px] uppercase tracking-[0.1em]"
