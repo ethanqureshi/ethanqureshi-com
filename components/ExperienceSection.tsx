@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import Reveal from "./Reveal";
 
 interface ExperienceEntry {
@@ -21,7 +21,7 @@ const entries: ExperienceEntry[] = [
       "Growth on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
       "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js) — 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
       "Manage 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook — approval workflow, onboarding calls, and platform compliance via Discord.",
-      "Drive content strategy, hook frameworks, and copy; building toward Fit AI's social profiles at 3+ posts daily.",
+      "Drive content strategy, hook frameworks, and copy; building toward the Fit AI social profiles at 3+ posts daily.",
     ],
   },
   {
@@ -57,7 +57,7 @@ const entries: ExperienceEntry[] = [
     company: "JPMorganChase & Co.",
     role: "Global Finance & Business Management",
     bullets: [
-      "1 of 332 fellows from 18,000+ applicants for JPMC's Summer Fellowship; shadowed Corporate Controllers across regulatory reporting, strategy, and financial analysis in Global Finance.",
+      "1 of 332 fellows from 18,000+ applicants for the JPMC Summer Fellowship; shadowed Corporate Controllers across regulatory reporting, strategy, and financial analysis in Global Finance.",
       "Pitched a plan to grow Chase Wealth Plan engagement among younger users — AI reminders, gamified financial-literacy modules, and social community integration.",
     ],
   },
@@ -79,17 +79,24 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
   useEffect(() => {
     const row = rowRef.current;
     if (!row) return;
-
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduce) {
+      row.style.opacity = "1";
+      row.style.transform = "none";
+      return;
+    }
     const observer = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
-          row.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+          row.style.transition = "opacity 0.8s ease, transform 0.8s ease";
           row.style.opacity = "1";
           row.style.transform = "translateY(0)";
           observer.unobserve(row);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.12 }
     );
     observer.observe(row);
     return () => observer.disconnect();
@@ -98,11 +105,11 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
   return (
     <div
       ref={rowRef}
-      className="group relative py-5 md:py-6 pl-5 md:pl-6 transition-colors duration-200"
+      className="group relative py-6 md:py-7 pl-5 md:pl-6"
       style={{
         borderTop: "1px solid var(--border)",
         opacity: 0,
-        transform: "translateY(20px)",
+        transform: "translateY(16px)",
       }}
       onMouseEnter={() => {
         if (barRef.current) barRef.current.style.transform = "scaleY(1)";
@@ -120,20 +127,23 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           transition: "transform 0.3s ease",
         }}
       />
-      <div className="flex items-baseline gap-2.5 mb-1">
+      <div className="flex items-baseline gap-2.5 mb-1.5">
         <span
-          className="font-display font-black text-[12px] tracking-[0.1em]"
+          className="font-mono text-[12px] tracking-[0.06em]"
           style={{ color: "var(--accent)" }}
         >
           {entry.year}
         </span>
-        <span className="font-display font-black uppercase text-white text-[15px] md:text-[16px] leading-tight">
+        <span
+          className="font-serif text-[17px] md:text-[18px]"
+          style={{ fontWeight: 500, color: "var(--text-1)" }}
+        >
           {entry.companyUrl ? (
             <a
               href={entry.companyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:opacity-70 transition-opacity duration-200"
+              className="transition-colors duration-200 hover:text-[var(--accent)]"
             >
               {entry.company}
             </a>
@@ -143,16 +153,16 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
         </span>
       </div>
       <p
-        className="font-body text-[11px] uppercase tracking-[0.1em] mb-3"
+        className="font-mono text-[10px] uppercase tracking-[0.14em] mb-3"
         style={{ color: "var(--text-3)" }}
       >
         {entry.role}
       </p>
-      <ul className="space-y-1.5">
+      <ul className="space-y-2">
         {entry.bullets.map((bullet, i) => (
           <li
             key={i}
-            className="font-body text-[12.5px] md:text-[13px] leading-[1.55] flex gap-2.5"
+            className="font-body text-[13px] leading-[1.6] flex gap-2.5"
             style={{ color: "var(--text-2)" }}
           >
             <span
@@ -171,29 +181,32 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="px-6 py-8 md:px-12 md:py-12"
-      style={{ borderTop: "1px solid var(--border)" }}
+      className="px-6 py-12 md:px-12 md:py-16"
+      style={{ borderTop: "1px solid var(--rule)" }}
     >
-      <div className="max-w-[1100px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-10 mb-5 md:mb-7">
-          <Reveal>
-            <p
-              className="font-display font-bold uppercase tracking-[0.35em] text-[10px] mb-3"
-              style={{ color: "var(--accent)" }}
-            >
-              Experience
-            </p>
-            <h2
-              className="font-display font-black uppercase leading-[0.95] text-white"
-              style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)" }}
-            >
-              The Work
-            </h2>
-          </Reveal>
-          <div />
-        </div>
+      <div className="max-w-[1040px] mx-auto">
+        <Reveal className="mb-10 md:mb-14">
+          <p
+            className="font-mono uppercase tracking-[0.24em] text-[11px] mb-4"
+            style={{ color: "var(--accent)" }}
+          >
+            Experience
+          </p>
+          <h2
+            className="font-serif"
+            style={{
+              fontSize: "clamp(1.9rem, 4vw, 2.6rem)",
+              fontWeight: 500,
+              lineHeight: 1.06,
+              letterSpacing: "-0.01em",
+              color: "var(--text-1)",
+            }}
+          >
+            The Work
+          </h2>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14">
           {entries.map((entry) => (
             <EntryRow key={entry.company} entry={entry} />
           ))}

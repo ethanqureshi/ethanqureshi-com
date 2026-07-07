@@ -4,20 +4,26 @@ export default function BioSection() {
   return (
     <section
       id="bio"
-      className="px-6 py-8 md:px-12 md:py-12"
-      style={{ borderTop: "1px solid var(--border)" }}
+      className="px-6 py-12 md:px-12 md:py-16"
+      style={{ borderTop: "1px solid var(--rule)" }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12 max-w-[1100px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-16 max-w-[1040px] mx-auto">
         <Reveal>
           <p
-            className="font-display font-bold uppercase tracking-[0.35em] text-[10px] mb-3"
+            className="font-mono uppercase tracking-[0.24em] text-[11px] mb-4"
             style={{ color: "var(--accent)" }}
           >
             Bio
           </p>
           <h2
-            className="font-display font-black uppercase leading-[0.95] text-white"
-            style={{ fontSize: "clamp(2rem, 8vw, 3.5rem)" }}
+            className="font-serif"
+            style={{
+              fontSize: "clamp(1.9rem, 4vw, 2.6rem)",
+              fontWeight: 500,
+              lineHeight: 1.06,
+              letterSpacing: "-0.01em",
+              color: "var(--text-1)",
+            }}
           >
             About Me
           </h2>
@@ -25,7 +31,7 @@ export default function BioSection() {
 
         <Reveal delay={100}>
           <div
-            className="font-body text-[14px] md:text-[15px] leading-[1.7] space-y-3"
+            className="font-body text-[14px] md:text-[15px] leading-[1.8] space-y-4"
             style={{ color: "var(--text-2)" }}
           >
             <p>
@@ -57,8 +63,8 @@ export default function BioSection() {
               supporting corporate development at HdL Companies while driving
               growth for Fit AI, an AI-powered fitness app. I am actively
               seeking opportunities to build at the frontier of AI, whether
-              founding something, joining a high-conviction early-stage team,
-              or shipping products that create meaningful impact.
+              founding something, joining a high-conviction early-stage team, or
+              shipping products that create meaningful impact.
             </p>
           </div>
         </Reveal>

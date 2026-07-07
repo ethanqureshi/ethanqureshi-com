@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Fraunces, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const barlowCondensed = Barlow_Condensed({
-  variable: "--font-barlow",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "700", "800", "900"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 const dmSans = DM_Sans({
@@ -44,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlowCondensed.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${fraunces.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>{children}</body>
     </html>

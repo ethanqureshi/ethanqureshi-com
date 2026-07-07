@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-barlow);
+  --font-serif: var(--font-fraunces);
   --font-body: var(--font-dm-sans);
   --font-mono: var(--font-jetbrains);
 }
 
 :root {
-  --bg: #0d0b0a;
-  --surface: #14100e;
-  --border: #241d18;
-  --accent: #d4622a;
-  --accent-dim: #d4622a24;
-  --text-1: #fff;
-  --text-2: #8a827c;
-  --text-3: #3a332e;
+  --bg: #f5f0e8;
+  --surface: #e6ddd0;
+  --border: #ddd2c2;
+  --rule: rgba(184, 86, 63, 0.22);
+  --accent: #b8563f;
+  --accent-deep: #8a3d2c;
+  --accent-dim: rgba(184, 86, 63, 0.1);
+  --text-1: #221e1a;
+  --text-2: #6f655a;
+  --text-3: #a89d8d;
 }
 
 * {
@@ -30,4 +32,65 @@ body {
   background: var(--bg);
   color: var(--text-1);
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: #f5f0e8;
+}
+
+/* Per-section warm tonal backgrounds — one family, shifting tone.
+   Bottom of each section matches the top of the next for smooth seams. */
+#bio {
+  background: linear-gradient(180deg, #f5f0e8 0%, #ece5d8 100%);
+}
+#experience {
+  background: linear-gradient(180deg, #ece5d8 0%, #e6e0d3 100%);
+}
+#projects {
+  background:
+    radial-gradient(120% 72% at 50% 36%, rgba(184, 86, 63, 0.06), transparent 68%),
+    linear-gradient(180deg, #e6e0d3 0%, #f1e6da 100%);
+}
+#contact {
+  background:
+    radial-gradient(100% 66% at 50% 22%, rgba(184, 86, 63, 0.05), transparent 70%),
+    linear-gradient(180deg, #f1e6da 0%, #f4ecdf 100%);
+}
+footer {
+  background: #f4ecdf;
+}
+
+/* Soft section-break transition: a faint bone feather just below each
+   hairline so the tonal shift reads as intentional, not abrupt. */
+#bio::before,
+#experience::before,
+#projects::before,
+#contact::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 64px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(245, 240, 232, 0.5),
+    rgba(245, 240, 232, 0)
+  );
+}
+#bio,
+#experience,
+#projects,
+#contact {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

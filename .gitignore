@@ -42,3 +42,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# oversized hero source images (optimized .webp committed instead)
+/public/hero-dune.jpg
+/public/hero-bg-soft.png
+/public/hero-bg-light.png

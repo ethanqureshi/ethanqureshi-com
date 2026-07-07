@@ -15,7 +15,7 @@ export default function Reveal({
   className,
   style,
   delay = 0,
-  initialY = 30,
+  initialY = 20,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -23,18 +23,28 @@ export default function Reveal({
     const el = ref.current;
     if (!el) return;
 
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduce) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
-            el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+            el.style.transition =
+              "opacity 0.8s ease, transform 0.8s cubic-bezier(0.16,1,0.3,1)";
             el.style.opacity = "1";
             el.style.transform = "translateY(0)";
           }, delay);
           observer.unobserve(el);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.12 }
     );
 
     observer.observe(el);
@@ -45,11 +55,7 @@ export default function Reveal({
     <div
       ref={ref}
       className={className}
-      style={{
-        opacity: 0,
-        transform: `translateY(${initialY}px)`,
-        ...style,
-      }}
+      style={{ opacity: 0, transform: `translateY(${initialY}px)`, ...style }}
     >
       {children}
     </div>

@@ -1,5 +1,4 @@
 import Nav from "@/components/Nav";
-import CursorDot from "@/components/CursorDot";
 import ScrollProgress from "@/components/ScrollProgress";
 import HeroSection from "@/components/HeroSection";
 import BioSection from "@/components/BioSection";
@@ -10,7 +9,6 @@ import ContactSection from "@/components/ContactSection";
 export default function Home() {
   return (
     <>
-      <CursorDot />
       <ScrollProgress />
       <Nav />
       <main>
@@ -21,10 +19,15 @@ export default function Home() {
         <ContactSection />
       </main>
       <footer
-        className="px-6 py-6 md:px-12 md:py-8 font-body text-[11px] uppercase tracking-[0.12em]"
-        style={{ borderTop: "1px solid var(--border)", color: "var(--text-3)" }}
+        className="px-6 py-10 md:px-12"
+        style={{ borderTop: "1px solid var(--rule)" }}
       >
-        © 2026 Ethan Qureshi
+        <p
+          className="font-mono text-[11px] uppercase tracking-[0.14em] max-w-[1040px] mx-auto"
+          style={{ color: "var(--text-3)" }}
+        >
+          © 2026 Ethan Qureshi
+        </p>
       </footer>
     </>
   );
