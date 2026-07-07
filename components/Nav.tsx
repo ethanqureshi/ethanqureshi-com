@@ -14,20 +14,29 @@ const labels: Record<Section, string> = {
   contact: "Contact",
 };
 
-export default function Nav() {
-  const [active, setActive] = useState<Section>("bio");
+interface NavProps {
+  /** When provided, Nav runs in deck mode: clicks page slides instead of scrolling. */
+  onNavigate?: (id: string) => void;
+  /** Active slide id in deck mode (e.g. "hero", "bio"). */
+  active?: string;
+}
+
+export default function Nav({ onNavigate, active }: NavProps = {}) {
+  const deckMode = typeof onNavigate === "function";
+  const [scrollActive, setScrollActive] = useState<Section>("bio");
   const pathname = usePathname();
   const isHome = pathname === "/";
 
+  // Scroll-spy is only used in the legacy (non-deck) scroll pages.
   useEffect(() => {
-    if (!isHome) return;
+    if (deckMode || !isHome) return;
     const observers: IntersectionObserver[] = [];
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
       const obs = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) setActive(id);
+          if (entry.isIntersecting) setScrollActive(id);
         },
         { rootMargin: "-40% 0px -55% 0px" }
       );
@@ -35,15 +44,20 @@ export default function Nav() {
       observers.push(obs);
     });
     return () => observers.forEach((o) => o.disconnect());
-  }, [isHome]);
+  }, [deckMode, isHome]);
 
-  const handleNav = (id: Section) => {
-    if (isHome) {
+  const handleNav = (id: string) => {
+    if (deckMode) {
+      onNavigate!(id);
+    } else if (isHome) {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
       window.location.href = `/#${id}`;
     }
   };
+
+  const isActive = (id: Section) =>
+    deckMode ? active === id : isHome && scrollActive === id;
 
   return (
     <nav
@@ -54,27 +68,37 @@ export default function Nav() {
         borderBottom: "1px solid rgba(184,86,63,0.14)",
       }}
     >
-      <Link
-        href="/"
-        className="font-mono text-[13px] tracking-[0.22em]"
-        style={{ color: "var(--text-1)" }}
-      >
-        EQ
-      </Link>
+      {deckMode ? (
+        <button
+          onClick={() => handleNav("hero")}
+          className="font-mono text-[13px] tracking-[0.22em]"
+          style={{ color: "var(--text-1)" }}
+        >
+          EQ
+        </button>
+      ) : (
+        <Link
+          href="/"
+          className="font-mono text-[13px] tracking-[0.22em]"
+          style={{ color: "var(--text-1)" }}
+        >
+          EQ
+        </Link>
+      )}
       <div className="flex gap-5 md:gap-8">
         {sections.map((id) => {
-          const isActive = isHome && active === id;
+          const activeNow = isActive(id);
           return (
             <button
               key={id}
               onClick={() => handleNav(id)}
               className="relative font-mono text-[10px] md:text-[11px] uppercase tracking-[0.14em] transition-colors duration-200"
-              style={{ color: isActive ? "var(--accent)" : "var(--text-2)" }}
+              style={{ color: activeNow ? "var(--accent)" : "var(--text-2)" }}
             >
               {labels[id]}
               <span
                 className="absolute -bottom-1 left-0 right-0 h-[1px] transition-opacity duration-200"
-                style={{ background: "var(--accent)", opacity: isActive ? 1 : 0 }}
+                style={{ background: "var(--accent)", opacity: activeNow ? 1 : 0 }}
               />
             </button>
           );

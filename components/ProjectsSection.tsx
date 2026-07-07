@@ -22,7 +22,7 @@ const projects = [
     label: "2026 · AI · Study · Music",
     title: "StudySong",
     description:
-      "Turn any notes into a study song — AI-written lyrics and AI vocals, with subscription tiers.",
+      "Turn any notes into a study song, with AI-written lyrics, AI vocals, and subscription tiers.",
   },
 ];
 
@@ -33,8 +33,8 @@ export default function ProjectsSection() {
       className="px-6 py-12 md:px-12 md:py-16"
       style={{ borderTop: "1px solid var(--rule)" }}
     >
-      <div className="max-w-[1040px] mx-auto">
-        <Reveal className="mb-10 md:mb-14">
+      <div className="deck-panel max-w-[1040px] mx-auto">
+        <Reveal className="mb-8 md:mb-10">
           <p
             className="font-mono uppercase tracking-[0.24em] text-[11px] mb-4"
             style={{ color: "var(--accent)" }}
@@ -42,12 +42,12 @@ export default function ProjectsSection() {
             Projects
           </p>
           <h2
-            className="font-serif"
+            className="font-display"
             style={{
-              fontSize: "clamp(1.9rem, 4vw, 2.6rem)",
-              fontWeight: 500,
-              lineHeight: 1.06,
-              letterSpacing: "-0.01em",
+              fontSize: "clamp(1.45rem, 3.2vw, 1.95rem)",
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: "-0.02em",
               color: "var(--text-1)",
             }}
           >
@@ -90,11 +90,12 @@ export default function ProjectsSection() {
                 </p>
 
                 <h3
-                  className="font-serif mb-3"
+                  className="font-display mb-3"
                   style={{
-                    fontSize: "clamp(1.4rem, 3vw, 1.7rem)",
-                    fontWeight: 500,
-                    lineHeight: 1.1,
+                    fontSize: "clamp(1.15rem, 2.4vw, 1.4rem)",
+                    fontWeight: 700,
+                    lineHeight: 1.12,
+                    letterSpacing: "-0.02em",
                     color: "var(--text-1)",
                   }}
                 >

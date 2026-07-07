@@ -7,7 +7,7 @@ export default function BioSection() {
       className="px-6 py-12 md:px-12 md:py-16"
       style={{ borderTop: "1px solid var(--rule)" }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-16 max-w-[1040px] mx-auto">
+      <div className="deck-panel grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-12 max-w-[1040px] mx-auto">
         <Reveal>
           <p
             className="font-mono uppercase tracking-[0.24em] text-[11px] mb-4"
@@ -16,12 +16,12 @@ export default function BioSection() {
             Bio
           </p>
           <h2
-            className="font-serif"
+            className="font-display"
             style={{
-              fontSize: "clamp(1.9rem, 4vw, 2.6rem)",
-              fontWeight: 500,
-              lineHeight: 1.06,
-              letterSpacing: "-0.01em",
+              fontSize: "clamp(1.45rem, 3.2vw, 1.95rem)",
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: "-0.02em",
               color: "var(--text-1)",
             }}
           >
@@ -31,7 +31,7 @@ export default function BioSection() {
 
         <Reveal delay={100}>
           <div
-            className="font-body text-[14px] md:text-[15px] leading-[1.8] space-y-4"
+            className="font-body text-[14px] md:text-[15px] leading-[1.7] space-y-3"
             style={{ color: "var(--text-2)" }}
           >
             <p>

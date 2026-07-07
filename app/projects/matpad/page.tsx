@@ -116,8 +116,9 @@ export default function MatPadPage() {
               <p>
                 MatPad is a full-stack wrestling camp management platform built
                 on Next.js, React, Supabase, and Stripe Connect. It consolidates
-                the fragmented tools coaches rely on — Venmo, Google Forms, group
-                texts — into one unified administrative system for camp directors.
+                the fragmented tools coaches rely on, like Venmo, Google Forms,
+                and group texts, into one unified administrative system for camp
+                directors.
               </p>
               <p>
                 The platform ships a complete product suite: online registration,

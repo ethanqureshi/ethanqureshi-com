@@ -18,10 +18,11 @@ const CSS = `
 
 .eqh-eyebrow{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.2em;
   font-size:11px;font-weight:500;color:var(--accent);margin:0 0 22px;}
-.eqh-name{font-family:var(--font-serif);font-weight:500;color:#453e35;
-  font-size:clamp(2.5rem,5.6vw,3.7rem);line-height:1.03;letter-spacing:-.015em;margin:0 0 22px;}
-.eqh-affil{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:#8a7c68;
-  line-height:1.7;max-width:34rem;margin:0 0 36px;}
+.eqh-name{font-family:var(--font-display);font-weight:700;color:#453e35;
+  font-size:clamp(2rem,4.7vw,3rem);line-height:1.04;letter-spacing:-.03em;margin:0 0 22px;}
+.eqh-affil{font-family:var(--font-mono);font-size:12.5px;font-weight:500;letter-spacing:.02em;
+  color:#4a4137;line-height:1.85;max-width:33rem;margin:0 0 36px;
+  text-shadow:0 1px 0 rgba(245,240,232,.6);}
 .eqh-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
 .eqh-btn{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-size:12px;
   padding:13px 28px;border-radius:2px;cursor:pointer;border:1px solid transparent;
@@ -60,12 +61,12 @@ export default function HeroSection() {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const navigate = (id: string) =>
+    window.dispatchEvent(new CustomEvent("deck:navigate", { detail: id }));
 
   return (
     <section
-      className={`eqh relative min-h-[75vh] flex flex-col items-center justify-center text-center px-6 pt-32 pb-16 md:pt-36 md:pb-20 overflow-hidden${
+      className={`eqh relative h-full min-h-full flex flex-col items-center justify-center text-center px-6 pt-28 pb-16 md:pt-32 md:pb-20 overflow-hidden${
         loaded ? " is-loaded" : ""
       }`}
     >
@@ -95,13 +96,13 @@ export default function HeroSection() {
 
         <div className="eqh-rise d4 eqh-cta">
           <button
-            onClick={() => scrollTo("experience")}
+            onClick={() => navigate("experience")}
             className="eqh-btn eqh-btn-primary"
           >
             View Work
           </button>
           <button
-            onClick={() => scrollTo("contact")}
+            onClick={() => navigate("contact")}
             className="eqh-btn eqh-btn-ghost"
           >
             Contact

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="EQ">
+  <defs>
+    <!-- Ordered-dither dot field: evokes the dithered sepia hero at any size -->
+    <pattern id="dither" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2" fill="#f5f0e8" opacity="0.13" />
+      <circle cx="12" cy="12" r="2" fill="#f5f0e8" opacity="0.13" />
+    </pattern>
+    <clipPath id="round">
+      <rect x="0" y="0" width="512" height="512" rx="104" />
+    </clipPath>
+  </defs>
+
+  <!-- Terracotta chip with dither texture -->
+  <g clip-path="url(#round)">
+    <rect width="512" height="512" fill="#b8563f" />
+    <rect width="512" height="512" fill="url(#dither)" />
+  </g>
+
+  <!-- Terminal-window frame -->
+  <rect x="22" y="22" width="468" height="468" rx="86"
+        fill="none" stroke="#f5f0e8" stroke-opacity="0.22" stroke-width="6" />
+
+  <!-- Monospace monogram -->
+  <text x="256" y="338" text-anchor="middle"
+        font-family="'Space Mono','JetBrains Mono',ui-monospace,'Courier New',monospace"
+        font-weight="700" font-size="232" letter-spacing="-6" fill="#f5f0e8">EQ</text>
+</svg>

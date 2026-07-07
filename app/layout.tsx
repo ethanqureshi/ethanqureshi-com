@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
-import { Fraunces, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-});
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -18,7 +11,7 @@ const dmSans = DM_Sans({
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -27,6 +20,7 @@ export const metadata: Metadata = {
     "Cornell wrestler, founder of MatPad, building at the intersection of AI and finance.",
   icons: {
     icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
       { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
@@ -45,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>{children}</body>
     </html>
