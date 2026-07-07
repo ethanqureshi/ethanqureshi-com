@@ -75,7 +75,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-[680px] mx-auto flex flex-col items-center">
         <div className="eqh-rise d0 eqh-portrait">
           <Image
-            src="/headshot-film.png"
+            src="/headshot-film.webp"
             alt="Ethan Qureshi"
             width={200}
             height={250}
