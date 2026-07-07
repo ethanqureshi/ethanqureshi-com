@@ -3,17 +3,18 @@
 @theme {
   --font-display: var(--font-barlow);
   --font-body: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains);
 }
 
 :root {
-  --bg: #0a0a0a;
-  --surface: #111;
-  --border: #1e1e1e;
-  --accent: #b31b1b;
-  --accent-dim: #b31b1b1f;
+  --bg: #0d0b0a;
+  --surface: #14100e;
+  --border: #241d18;
+  --accent: #d4622a;
+  --accent-dim: #d4622a24;
   --text-1: #fff;
-  --text-2: #888;
-  --text-3: #3a3a3a;
+  --text-2: #8a827c;
+  --text-3: #3a332e;
 }
 
 * {

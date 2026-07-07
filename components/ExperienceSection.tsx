@@ -18,10 +18,10 @@ const entries: ExperienceEntry[] = [
     companyUrl: "https://www.linkedin.com/company/10x-app",
     role: "Growth & Creator Partnerships",
     bullets: [
-      "Working on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
-      "Built a fully automated Instagram carousel pipeline using Claude Code, Higgsfield CLI, and Node.js — producing 30+ branded slideshows from brief to finished asset. Developed viral-format content systems informed by competitor research and direct founder feedback. Generated AI UGC transformation videos using Higgsfield Seedance 2.0 with custom-trained character models.",
-      "Managing a network of 20+ contracted creators posting across TikTok, Instagram, YouTube, and Facebook. Overseeing content approval workflow, creator onboarding calls, and platform compliance via Discord.",
-      "Collaborating on content strategy, hook frameworks, and copy direction. Building toward managing Fit AI's social profiles with a target of 3+ posts daily.",
+      "Growth on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
+      "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js) — 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
+      "Manage 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook — approval workflow, onboarding calls, and platform compliance via Discord.",
+      "Drive content strategy, hook frameworks, and copy; building toward Fit AI's social profiles at 3+ posts daily.",
     ],
   },
   {
@@ -29,9 +29,9 @@ const entries: ExperienceEntry[] = [
     company: "HdL Companies",
     role: "Finance & Corporate Development",
     bullets: [
-      "Supporting finance, accounting, and corporate development functions at a B2G SaaS firm serving 900+ local government clients across the United States.",
-      "Assisting with financial analysis, contract review, and strategic initiatives under the direction of the CFO.",
-      "Leveraging AI tools to streamline internal workflows and accelerate financial analysis.",
+      "Support finance, accounting, and corporate development at a B2G SaaS firm serving 900+ local-government clients across the U.S.",
+      "Financial analysis, contract review, and strategic initiatives under the CFO.",
+      "Apply AI tools to streamline internal workflows and accelerate financial analysis.",
     ],
   },
   {
@@ -39,8 +39,8 @@ const entries: ExperienceEntry[] = [
     company: "MatPad",
     role: "Founder",
     bullets: [
-      "Founded matpad.app, a full-stack wrestling camp management platform built on Next.js, React, Supabase, and Stripe Connect, consolidating the fragmented tools coaches rely on into one unified administrative system for camp directors.",
-      "Designed and shipped a complete product suite including online registration, automated payment processing, roster management, one-click parent email communication, digital waivers, coach profile pages, and a public camp directory.",
+      "Founded matpad.app — a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
+      "Shipped registration, automated payments, roster management, one-click parent email, digital waivers, coach profile pages, and a public camp directory.",
     ],
   },
   {
@@ -48,8 +48,8 @@ const entries: ExperienceEntry[] = [
     company: "Park Lane",
     role: "Investment Banking",
     bullets: [
-      "Conducting company, industry, and financial analysis across professional sports franchises, leagues, and adjacent businesses while supporting live M&A advisory engagements at a leading sports-focused boutique investment bank.",
-      "Built league and team-specific valuation and revenue analyses using comparable emerging sports leagues, expansion fee benchmarks, and bottom-up operating assumptions; supported preparation of investor-facing materials for senior bankers.",
+      "Company, industry, and financial analysis across sports franchises, leagues, and adjacent businesses; supported live M&A engagements at a sports-focused boutique bank.",
+      "Built league/team valuation and revenue analyses (emerging-league comps, expansion-fee benchmarks, bottom-up assumptions); prepped investor-facing materials for senior bankers.",
     ],
   },
   {
@@ -57,8 +57,8 @@ const entries: ExperienceEntry[] = [
     company: "JPMorganChase & Co.",
     role: "Global Finance & Business Management",
     bullets: [
-      "Selected as 1 of 332 fellows from 18,000+ applicants for JPMC's competitive Summer Fellowship Program; shadowed Corporate Controllers across regulatory reporting, business strategy, and financial analysis in the Global Finance division.",
-      "Developed and presented a strategic marketing plan to drive Chase Wealth Plan app engagement among younger demographics, proposing AI-powered reminders, gamified financial literacy modules, and social community integration.",
+      "1 of 332 fellows from 18,000+ applicants for JPMC's Summer Fellowship; shadowed Corporate Controllers across regulatory reporting, strategy, and financial analysis in Global Finance.",
+      "Pitched a plan to grow Chase Wealth Plan engagement among younger users — AI reminders, gamified financial-literacy modules, and social community integration.",
     ],
   },
   {
@@ -66,8 +66,8 @@ const entries: ExperienceEntry[] = [
     company: "HP Tech Ventures",
     role: "Venture Capital",
     bullets: [
-      "Delivered in-depth market analysis across AI-enabled productivity tools, spotlighting a sector projected to reach $632B by 2028 at a 29% CAGR, identifying 3+ high-potential growth verticals and outlining key competitive risks and investment implications.",
-      "Sourced and evaluated 30+ early-stage startups, including companies with $100M+ in funding and $1B+ valuations; produced 5 detailed investment summaries assessing go-to-market fit, competitive positioning, and strategic partnership opportunities.",
+      "Market analysis across AI-enabled productivity tools — a sector projected at $632B by 2028 (29% CAGR); flagged 3+ growth verticals and key competitive risks.",
+      "Sourced and evaluated 30+ early-stage startups ($100M+ funding, $1B+ valuations); wrote 5 investment summaries on go-to-market fit, positioning, and partnerships.",
     ],
   },
 ];
@@ -98,7 +98,7 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
   return (
     <div
       ref={rowRef}
-      className="group relative py-7 md:py-8 transition-colors duration-200"
+      className="group relative py-5 md:py-6 pl-5 md:pl-6 transition-colors duration-200"
       style={{
         borderTop: "1px solid var(--border)",
         opacity: 0,
@@ -120,51 +120,49 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           transition: "transform 0.3s ease",
         }}
       />
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-4 md:gap-16 pl-5 md:pl-8">
-        <div>
-          <p
-            className="font-display font-black text-[12px] tracking-[0.1em] mb-1"
-            style={{ color: "var(--accent)" }}
-          >
-            {entry.year}
-          </p>
-          <p className="font-display font-black uppercase text-white text-[15px] md:text-[16px] leading-tight mb-1">
-            {entry.companyUrl ? (
-              <a
-                href={entry.companyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-70 transition-opacity duration-200"
-              >
-                {entry.company}
-              </a>
-            ) : (
-              entry.company
-            )}
-          </p>
-          <p
-            className="font-body text-[11px] uppercase tracking-[0.1em]"
-            style={{ color: "var(--text-3)" }}
-          >
-            {entry.role}
-          </p>
-        </div>
-        <ul className="space-y-3 self-center">
-          {entry.bullets.map((bullet, i) => (
-            <li
-              key={i}
-              className="font-body text-[13px] md:text-[13.5px] leading-[1.75] flex gap-3"
-              style={{ color: "var(--text-2)" }}
+      <div className="flex items-baseline gap-2.5 mb-1">
+        <span
+          className="font-display font-black text-[12px] tracking-[0.1em]"
+          style={{ color: "var(--accent)" }}
+        >
+          {entry.year}
+        </span>
+        <span className="font-display font-black uppercase text-white text-[15px] md:text-[16px] leading-tight">
+          {entry.companyUrl ? (
+            <a
+              href={entry.companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity duration-200"
             >
-              <span
-                className="mt-[0.55em] shrink-0 w-[4px] h-[4px] rounded-full"
-                style={{ background: "var(--accent)" }}
-              />
-              {bullet}
-            </li>
-          ))}
-        </ul>
+              {entry.company}
+            </a>
+          ) : (
+            entry.company
+          )}
+        </span>
       </div>
+      <p
+        className="font-body text-[11px] uppercase tracking-[0.1em] mb-3"
+        style={{ color: "var(--text-3)" }}
+      >
+        {entry.role}
+      </p>
+      <ul className="space-y-1.5">
+        {entry.bullets.map((bullet, i) => (
+          <li
+            key={i}
+            className="font-body text-[12.5px] md:text-[13px] leading-[1.55] flex gap-2.5"
+            style={{ color: "var(--text-2)" }}
+          >
+            <span
+              className="mt-[0.5em] shrink-0 w-[4px] h-[4px] rounded-full"
+              style={{ background: "var(--accent)" }}
+            />
+            {bullet}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -173,11 +171,11 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="px-6 py-16 md:px-12 md:py-24"
+      className="px-6 py-8 md:px-12 md:py-12"
       style={{ borderTop: "1px solid var(--border)" }}
     >
       <div className="max-w-[1100px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-16 mb-12 md:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-10 mb-5 md:mb-7">
           <Reveal>
             <p
               className="font-display font-bold uppercase tracking-[0.35em] text-[10px] mb-3"
@@ -195,11 +193,10 @@ export default function ExperienceSection() {
           <div />
         </div>
 
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
           {entries.map((entry) => (
             <EntryRow key={entry.company} entry={entry} />
           ))}
-          <div style={{ borderTop: "1px solid var(--border)" }} />
         </div>
       </div>
     </section>

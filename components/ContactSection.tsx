@@ -29,10 +29,10 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="px-6 py-16 md:px-12 md:py-24"
+      className="px-6 py-8 md:px-12 md:py-12"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-10 md:gap-16 max-w-[1100px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-12 max-w-[1100px] mx-auto">
         <Reveal>
           <p
             className="font-display font-bold uppercase tracking-[0.35em] text-[10px] mb-3"

@@ -4,10 +4,10 @@ export default function BioSection() {
   return (
     <section
       id="bio"
-      className="px-6 py-16 md:px-12 md:py-24"
+      className="px-6 py-8 md:px-12 md:py-12"
       style={{ borderTop: "1px solid var(--border)" }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-16 max-w-[1100px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-12 max-w-[1100px] mx-auto">
         <Reveal>
           <p
             className="font-display font-bold uppercase tracking-[0.35em] text-[10px] mb-3"
@@ -25,7 +25,7 @@ export default function BioSection() {
 
         <Reveal delay={100}>
           <div
-            className="font-body text-[14px] md:text-[15px] leading-[1.85] space-y-5"
+            className="font-body text-[14px] md:text-[15px] leading-[1.7] space-y-3"
             style={{ color: "var(--text-2)" }}
           >
             <p>
