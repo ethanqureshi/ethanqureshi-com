@@ -18,7 +18,6 @@ const entries: ExperienceEntry[] = [
       "Growth on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
       "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js): 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
       "Managed 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook, running approval workflow, onboarding calls, and platform compliance via Discord.",
-      "Drive content strategy, hook frameworks, and copy; building toward the Fit AI social profiles at 3+ posts daily.",
     ],
   },
   {
