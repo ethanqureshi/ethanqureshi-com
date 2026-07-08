@@ -8,7 +8,7 @@ const CSS = `
 .eqh-bg::before{content:'';position:absolute;inset:0;
   background:url(/hero-dune.webp) center 42%/cover no-repeat;}
 .eqh-bg::after{content:'';position:absolute;inset:0;background:
-  radial-gradient(62% 60% at 50% 51%, rgba(245,240,232,.8), rgba(245,240,232,.44) 54%, rgba(245,240,232,0) 82%),
+  radial-gradient(66% 64% at 50% 51%, rgba(245,240,232,.92), rgba(245,240,232,.6) 56%, rgba(245,240,232,0) 84%),
   linear-gradient(180deg, rgba(245,240,232,.55), rgba(245,240,232,0) 20%, rgba(245,240,232,0) 68%, rgba(245,240,232,.9) 100%);}
 
 .eqh-portrait{width:200px;height:250px;border-radius:10px;overflow:hidden;margin:0 0 32px;
@@ -17,12 +17,14 @@ const CSS = `
 .eqh-portrait img{width:100%;height:100%;object-fit:cover;object-position:center;}
 
 .eqh-eyebrow{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.2em;
-  font-size:11px;font-weight:500;color:var(--accent);margin:0 0 22px;}
+  font-size:11px;font-weight:500;color:var(--accent);margin:0 0 22px;
+  text-shadow:0 0 10px rgba(245,240,232,.9);}
 .eqh-name{font-family:var(--font-display);font-weight:700;color:#453e35;
-  font-size:clamp(2rem,4.7vw,3rem);line-height:1.04;letter-spacing:-.03em;margin:0 0 22px;}
+  font-size:clamp(2rem,4.7vw,3rem);line-height:1.04;letter-spacing:-.03em;margin:0 0 22px;
+  text-shadow:0 0 18px rgba(245,240,232,.9),0 1px 0 rgba(245,240,232,.7);}
 .eqh-affil{font-family:var(--font-mono);font-size:12.5px;font-weight:500;letter-spacing:.02em;
-  color:#4a4137;line-height:1.85;max-width:33rem;margin:0 0 36px;
-  text-shadow:0 1px 0 rgba(245,240,232,.6);}
+  color:#453e35;line-height:1.85;max-width:33rem;margin:0 0 36px;
+  text-shadow:0 0 10px rgba(245,240,232,.95),0 1px 0 rgba(245,240,232,.7);}
 .eqh-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
 .eqh-btn{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-size:12px;
   padding:13px 28px;border-radius:2px;cursor:pointer;border:1px solid transparent;

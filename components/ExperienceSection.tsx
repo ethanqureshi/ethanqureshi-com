@@ -4,6 +4,7 @@ interface ExperienceEntry {
   year: string;
   company: string;
   companyUrl?: string;
+  logo: string;
   role: string;
   bullets: string[];
 }
@@ -13,6 +14,7 @@ const entries: ExperienceEntry[] = [
     year: "2026",
     company: "10x",
     companyUrl: "https://www.linkedin.com/company/10x-app",
+    logo: "/logos/10x.png",
     role: "Growth & Creator Partnerships",
     bullets: [
       "Growth on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
@@ -23,6 +25,7 @@ const entries: ExperienceEntry[] = [
   {
     year: "2026",
     company: "HdL Companies",
+    logo: "/logos/hdl.png",
     role: "Finance & Corporate Development",
     bullets: [
       "Support finance, accounting, and corporate development at a B2G SaaS firm serving 900+ local-government clients across the U.S.",
@@ -33,6 +36,7 @@ const entries: ExperienceEntry[] = [
   {
     year: "2026",
     company: "MatPad",
+    logo: "/logos/matpad.png",
     role: "Founder",
     bullets: [
       "Founded matpad.app, a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
@@ -42,6 +46,7 @@ const entries: ExperienceEntry[] = [
   {
     year: "2026",
     company: "Park Lane",
+    logo: "/logos/parklane.png",
     role: "Investment Banking",
     bullets: [
       "Company, industry, and financial analysis across sports franchises, leagues, and adjacent businesses; supported live M&A engagements at a sports-focused boutique bank.",
@@ -51,6 +56,7 @@ const entries: ExperienceEntry[] = [
   {
     year: "2025",
     company: "JPMorganChase & Co.",
+    logo: "/logos/jpmorgan.jpg",
     role: "Global Finance & Business Management",
     bullets: [
       "1 of 332 fellows from 18,000+ applicants for the JPMC Summer Fellowship; shadowed Corporate Controllers across regulatory reporting, strategy, and financial analysis in Global Finance.",
@@ -60,6 +66,7 @@ const entries: ExperienceEntry[] = [
   {
     year: "2024",
     company: "HP Tech Ventures",
+    logo: "/logos/hp.png",
     role: "Venture Capital",
     bullets: [
       "Market analysis across AI-enabled productivity tools, a sector projected at $632B by 2028 (29% CAGR); flagged 3+ growth verticals and key competitive risks.",
@@ -75,7 +82,14 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
         className="absolute left-0 top-[14px] bottom-1 w-[2px] origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100"
         style={{ background: "var(--accent)" }}
       />
-      <div className="flex items-baseline gap-2.5">
+      <div className="flex items-center gap-2.5">
+        <span
+          className={`co-mark${entry.logo.includes("matpad") ? " co-mark--cover" : ""}`}
+          aria-hidden="true"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={entry.logo} alt="" decoding="async" />
+        </span>
         <span
           className="font-mono text-[11px] tracking-[0.06em]"
           style={{ color: "var(--accent)" }}
@@ -83,7 +97,7 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           {entry.year}
         </span>
         <span
-          className="font-display text-[14px] md:text-[15px]"
+          className="font-display text-[15px]"
           style={{ fontWeight: 700, letterSpacing: "-0.01em", color: "var(--text-1)" }}
         >
           {entry.companyUrl ? (
@@ -101,16 +115,16 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
         </span>
       </div>
       <p
-        className="font-mono text-[9px] uppercase tracking-[0.14em] mt-1 mb-1.5"
+        className="font-mono text-[10px] md:text-[9px] uppercase tracking-[0.14em] mt-1.5 mb-2 md:mt-1 md:mb-1.5"
         style={{ color: "var(--text-3)" }}
       >
         {entry.role}
       </p>
-      <ul className="space-y-1">
+      <ul className="space-y-1.5 md:space-y-1">
         {entry.bullets.map((bullet, i) => (
           <li
             key={i}
-            className="font-body text-[11.5px] leading-[1.5] flex gap-2"
+            className="font-body text-[13px] md:text-[11.5px] leading-[1.6] md:leading-[1.5] flex gap-2"
             style={{ color: "var(--text-2)" }}
           >
             <span
@@ -129,7 +143,7 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="px-6 py-10 md:px-12"
+      className="px-6 pt-20 pb-10 md:px-12"
       style={{ borderTop: "1px solid var(--rule)" }}
     >
       <div className="deck-panel max-w-[1040px] w-full mx-auto">

@@ -35,6 +35,22 @@ export default function Deck() {
     indexRef.current = index;
   }, [index]);
 
+  // Each slide remounts on change; a slide taller than the viewport (dense
+  // slides, short screens) can otherwise render scrolled partway down under
+  // `justify-content: safe center` (the browser sets the scroller's initial
+  // position after first paint). Pin it to the top — immediately and again
+  // after paint — so the header is always visible and the panel scrolls from
+  // there.
+  useEffect(() => {
+    const pin = () => {
+      const el = document.querySelector<HTMLElement>(".slide-scroll");
+      if (el) el.scrollTop = 0;
+    };
+    pin();
+    const r = requestAnimationFrame(pin);
+    return () => cancelAnimationFrame(r);
+  }, [index]);
+
   // Direct jump (nav, dots); clamps to range.
   const go = useCallback((next: number) => {
     const clamped = Math.max(0, Math.min(slides.length - 1, next));

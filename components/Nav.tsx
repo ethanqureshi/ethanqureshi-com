@@ -71,7 +71,9 @@ export default function Nav({ onNavigate, active }: NavProps = {}) {
       {deckMode ? (
         <button
           onClick={() => handleNav("hero")}
-          className="font-mono text-[13px] tracking-[0.22em]"
+          aria-label="Return to top"
+          title="Return to top"
+          className="font-mono text-[13px] tracking-[0.22em] transition-colors duration-200 hover:text-[var(--accent)]"
           style={{ color: "var(--text-1)" }}
         >
           EQ
@@ -79,7 +81,8 @@ export default function Nav({ onNavigate, active }: NavProps = {}) {
       ) : (
         <Link
           href="/"
-          className="font-mono text-[13px] tracking-[0.22em]"
+          aria-label="Return home"
+          className="font-mono text-[13px] tracking-[0.22em] transition-colors duration-200 hover:text-[var(--accent)]"
           style={{ color: "var(--text-1)" }}
         >
           EQ
@@ -92,13 +95,14 @@ export default function Nav({ onNavigate, active }: NavProps = {}) {
             <button
               key={id}
               onClick={() => handleNav(id)}
-              className="relative font-mono text-[10px] md:text-[11px] uppercase tracking-[0.14em] transition-colors duration-200"
-              style={{ color: activeNow ? "var(--accent)" : "var(--text-2)" }}
+              aria-current={activeNow ? "true" : undefined}
+              className={`nav-item relative font-mono text-[10px] md:text-[11px] uppercase tracking-[0.14em]${
+                activeNow ? " is-active" : ""
+              }`}
             >
               {labels[id]}
               <span
-                className="absolute -bottom-1 left-0 right-0 h-[1px] transition-opacity duration-200"
-                style={{ background: "var(--accent)", opacity: activeNow ? 1 : 0 }}
+                className={`nav-underline${activeNow ? " is-active" : ""}`}
               />
             </button>
           );

@@ -84,20 +84,111 @@ body {
 }
 
 /* Experience uses balanced columns instead of a row-aligned grid, so a tall
-   role (10x) no longer forces whitespace beside a short one. Entries flow and
-   pack evenly, keeping the whole slide to a single screen (no inner scroll). */
+   role (10x) no longer forces whitespace beside a short one. On mobile it is a
+   single roomy column that scrolls internally (legibility over no-scroll); the
+   desktop two-column single-screen layout is unchanged. */
 .exp-cols {
   column-gap: 2.75rem;
 }
 .exp-entry {
   break-inside: avoid;
   border-top: 1px solid var(--border);
-  padding-top: 9px;
-  margin-bottom: 8px;
+  padding-top: 15px;
+  margin-bottom: 17px;
 }
 @media (min-width: 768px) {
   .exp-cols {
     column-count: 2;
+  }
+  .exp-entry {
+    padding-top: 9px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Small logo mark beside each company name. A uniform rounded chip normalises
+   the mismatched real brand favicons into one consistent row. */
+.co-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(60, 40, 28, 0.12);
+}
+.co-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 2px;
+}
+/* Full-bleed app-icon tiles (own background, non-square) fill the chip edge to
+   edge instead of being letter-boxed. */
+.co-mark--cover {
+  background: transparent;
+}
+.co-mark--cover img {
+  object-fit: cover;
+  padding: 0;
+}
+@media (max-width: 640px) {
+  /* Scale down so marks don't crowd the text on phones. */
+  .co-mark {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+  }
+}
+@media (max-width: 360px) {
+  /* Hide entirely on the narrowest screens where they'd cramp the row. */
+  .co-mark {
+    display: none;
+  }
+}
+
+/* ── Top nav ─────────────────────────────────────────────────────────────
+   The active section keeps a solid, full underline. On devices that truly
+   hover (desktop), hovering any item slides in a lighter underline so it reads
+   as clickable — distinct from the active state, and untouched on touch. */
+.nav-item {
+  color: var(--text-2);
+  transition: color 0.18s ease;
+}
+.nav-item.is-active {
+  color: var(--accent);
+}
+.nav-underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+.nav-underline.is-active {
+  transform: scaleX(1);
+  opacity: 1;
+}
+@media (hover: hover) {
+  .nav-item:hover {
+    color: var(--accent);
+  }
+  .nav-item:hover .nav-underline {
+    transform: scaleX(1);
+    opacity: 0.45;
+  }
+  /* Active item stays full-strength even while hovered. */
+  .nav-item:hover .nav-underline.is-active {
+    opacity: 1;
   }
 }
 
@@ -131,7 +222,11 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  /* Centre when the slide fits; when it's taller than the viewport (dense
+     slides, short laptops, mobile) fall back to top-alignment so the header is
+     never clipped above the fold and the panel scrolls internally instead. */
   justify-content: center;
+  justify-content: safe center;
   background: transparent;
   border-top: none !important;
 }
