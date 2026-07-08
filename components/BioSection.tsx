@@ -31,7 +31,7 @@ export default function BioSection() {
 
         <Reveal delay={100}>
           <div
-            className="font-body text-[15px] md:text-[15px] leading-[1.75] md:leading-[1.7] space-y-4 md:space-y-3"
+            className="font-body text-[16px] md:text-[15px] leading-[1.8] md:leading-[1.7] space-y-5 md:space-y-3"
             style={{ color: "var(--text-2)" }}
           >
             <p>
