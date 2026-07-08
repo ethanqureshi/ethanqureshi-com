@@ -4,24 +4,37 @@ import { useState } from "react";
 import Reveal from "./Reveal";
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+    website: "", // honeypot — must stay empty for real users
+  });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
+    setErrorMsg("");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error || "Something went wrong. Please try again.");
+        setStatus("error");
+        return;
+      }
       setStatus("sent");
-      setForm({ name: "", email: "", message: "" });
+      setForm({ name: "", email: "", message: "", website: "" });
     } catch {
+      setErrorMsg("Something went wrong. Please try again.");
       setStatus("error");
     }
   };
@@ -91,10 +104,28 @@ export default function ContactSection() {
             </p>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot: hidden from real users; bots that fill it are rejected. */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                value={form.website}
+                onChange={(e) => setForm({ ...form, website: e.target.value })}
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: 1,
+                  height: 1,
+                  opacity: 0,
+                }}
+              />
               <input
                 type="text"
                 placeholder="Name"
                 required
+                maxLength={100}
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className={field}
@@ -104,6 +135,7 @@ export default function ContactSection() {
                 type="email"
                 placeholder="Email"
                 required
+                maxLength={200}
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className={field}
@@ -113,6 +145,7 @@ export default function ContactSection() {
                 placeholder="Message"
                 required
                 rows={5}
+                maxLength={5000}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className={field}
@@ -123,7 +156,7 @@ export default function ContactSection() {
                   className="font-body text-[12px]"
                   style={{ color: "var(--accent)" }}
                 >
-                  Something went wrong. Please try again.
+                  {errorMsg || "Something went wrong. Please try again."}
                 </p>
               )}
               <button
@@ -138,6 +171,13 @@ export default function ContactSection() {
               >
                 {status === "sending" ? "Sending…" : "Send Message"}
               </button>
+              <p
+                className="font-body text-[11px] leading-[1.5] mt-1"
+                style={{ color: "var(--text-3)" }}
+              >
+                Your message is emailed to me via Resend and Vercel. I won&apos;t
+                share or sell it.
+              </p>
             </form>
           )}
         </Reveal>

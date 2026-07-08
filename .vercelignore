@@ -1,0 +1,5 @@
+# Oversized source images kept locally but never shipped (optimized .webp is used instead)
+/public/hero-dune.jpg
+/public/headshot-film.png
+/public/hero-bg-soft.png
+/public/hero-bg-light.png
