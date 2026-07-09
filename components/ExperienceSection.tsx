@@ -44,7 +44,7 @@ const entries: ExperienceEntry[] = [
   {
     year: "2026",
     company: "MatPad",
-    logo: "/logos/matpad.png",
+    logo: "/matpad-icon.png",
     role: "Founder",
     bullets: [
       "Founded matpad.app, a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
@@ -96,7 +96,7 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           aria-hidden="true"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={entry.logo} alt="" decoding="async" />
+          <img src={entry.logo} alt="" decoding="async" loading="eager" fetchPriority="high" />
         </span>
         <span
           className="font-mono text-[11px] tracking-[0.06em]"
