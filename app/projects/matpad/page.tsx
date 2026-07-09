@@ -74,14 +74,16 @@ export default function MatPadPage() {
           <Reveal delay={100} className="flex items-center gap-5 mb-8">
             <div
               className="w-20 h-20 flex items-center justify-center overflow-hidden"
-              style={{ borderRadius: "14px", background: "#0f1a2e" }}
+              style={{ borderRadius: "14px", background: "#0b0b0d" }}
             >
               <Image
-                src="/matpad-logo.png"
+                src="/matpad-icon.png"
                 alt="MatPad"
                 width={80}
                 height={80}
-                style={{ objectFit: "contain" }}
+                quality={95}
+                className="h-full w-full"
+                style={{ objectFit: "cover" }}
               />
             </div>
             <div>

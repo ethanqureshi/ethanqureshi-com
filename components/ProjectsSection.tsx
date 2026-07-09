@@ -4,10 +4,10 @@ import Reveal from "./Reveal";
 const projects = [
   {
     href: "https://matpad.app",
-    logo: "/matpad-logo.png",
+    logo: "/matpad-icon.png",
     logoAlt: "MatPad",
-    logoBg: "#0f1a2e",
-    imgSize: 40,
+    logoBg: "#0b0b0d",
+    imgSize: 56,
     label: "2026 · AI · Wrestling · SaaS",
     title: "MatPad",
     description:
@@ -15,10 +15,10 @@ const projects = [
   },
   {
     href: "https://studysong.org",
-    logo: "/studysong-logo.png",
+    logo: "/studysong-icon.png",
     logoAlt: "StudySong",
-    logoBg: "#1b1233",
-    imgSize: 52,
+    logoBg: "#6b3df5",
+    imgSize: 56,
     label: "2026 · AI · Study · Music",
     title: "StudySong",
     description:
@@ -78,7 +78,10 @@ export default function ProjectsSection() {
                     alt={project.logoAlt}
                     width={project.imgSize}
                     height={project.imgSize}
-                    style={{ objectFit: "contain" }}
+                    quality={95}
+                    priority
+                    className="h-full w-full"
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
 

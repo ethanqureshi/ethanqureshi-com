@@ -1,4 +1,12 @@
+"use client";
+
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Reveal from "./Reveal";
+
+// useLayoutEffect on the client, useEffect on the server (this slide only ever
+// mounts client-side, but guard the SSR warning anyway).
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface ExperienceEntry {
   year: string;
@@ -17,7 +25,7 @@ const entries: ExperienceEntry[] = [
     logo: "/logos/10x.png",
     role: "Growth & Creator Partnerships",
     bullets: [
-      "Growth on Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
+      "Growing Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
       "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js): 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
       "Managed 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook, running approval workflow, onboarding calls, and platform compliance via Discord.",
     ],
@@ -140,38 +148,90 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
 }
 
 export default function ExperienceSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Guarantee the whole section is visible with no internal scroll: on desktop,
+  // uniformly scale the panel down whenever its natural height would exceed the
+  // viewport, and collapse the reclaimed layout height with a negative margin so
+  // the slide never becomes scrollable (the first wheel then pages to the next
+  // section). On mobile the panel keeps its natural size and scrolls normally.
+  useIsoLayoutEffect(() => {
+    const section = sectionRef.current;
+    const panel = panelRef.current;
+    if (!section || !panel) return;
+
+    const fit = () => {
+      panel.style.transformOrigin = "top center";
+      panel.style.transform = "none";
+      panel.style.marginBottom = "";
+
+      if (window.innerWidth < 768) return;
+
+      const need = panel.offsetHeight;
+      const cs = getComputedStyle(section);
+      const padTop = parseFloat(cs.paddingTop) || 0;
+      const padBottom = parseFloat(cs.paddingBottom) || 0;
+      const avail = window.innerHeight - padTop - padBottom - 8;
+      const scale = Math.min(1, avail / need);
+
+      if (scale < 1) {
+        panel.style.transform = `scale(${scale})`;
+        panel.style.marginBottom = `-${Math.ceil(need - need * scale)}px`;
+      }
+    };
+
+    fit();
+    const raf = requestAnimationFrame(fit);
+    window.addEventListener("resize", fit);
+    let cancelled = false;
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        if (!cancelled) fit();
+      });
+    }
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", fit);
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="experience"
       className="px-6 pt-20 pb-10 md:px-12 md:pt-16 md:pb-10"
       style={{ borderTop: "1px solid var(--rule)" }}
     >
-      <div className="deck-panel max-w-[1040px] w-full mx-auto">
-        <Reveal className="mb-5 md:mb-4">
-          <p
-            className="font-mono uppercase tracking-[0.24em] text-[11px] mb-2"
-            style={{ color: "var(--accent)" }}
-          >
-            Experience
-          </p>
-          <h2
-            className="font-display"
-            style={{
-              fontSize: "clamp(1.35rem, 2.6vw, 1.65rem)",
-              fontWeight: 700,
-              lineHeight: 1.08,
-              letterSpacing: "-0.02em",
-              color: "var(--text-1)",
-            }}
-          >
-            The Work
-          </h2>
-        </Reveal>
+      <div className="max-w-[1040px] w-full mx-auto">
+        <div ref={panelRef} className="deck-panel w-full">
+          <Reveal className="mb-5 md:mb-4">
+            <p
+              className="font-mono uppercase tracking-[0.24em] text-[11px] mb-2"
+              style={{ color: "var(--accent)" }}
+            >
+              Experience
+            </p>
+            <h2
+              className="font-display"
+              style={{
+                fontSize: "clamp(1.35rem, 2.6vw, 1.65rem)",
+                fontWeight: 700,
+                lineHeight: 1.08,
+                letterSpacing: "-0.02em",
+                color: "var(--text-1)",
+              }}
+            >
+              The Work
+            </h2>
+          </Reveal>
 
-        <div className="exp-cols">
-          {entries.map((entry) => (
-            <EntryRow key={entry.company} entry={entry} />
-          ))}
+          <div className="exp-cols">
+            {entries.map((entry) => (
+              <EntryRow key={entry.company} entry={entry} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
