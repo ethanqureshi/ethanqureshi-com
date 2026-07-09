@@ -28,11 +28,32 @@ const slideBg: Record<string, string> = {
 export default function Deck() {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
+  // The slide the deck is fading away from; kept mounted underneath the incoming
+  // one for the length of the cross-fade, then dropped.
+  const [outgoing, setOutgoing] = useState<number | null>(null);
   const indexRef = useRef(0);
+  const prevRef = useRef(0);
+  const outT = useRef<number | null>(null);
   const lock = useRef(false);
 
   useEffect(() => {
     indexRef.current = index;
+  }, [index]);
+
+  // On every index change, keep the previous slide rendered as the leaving layer
+  // so the two cross-dissolve. Skipped under reduced-motion (instant swap).
+  useEffect(() => {
+    if (prevRef.current === index) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) {
+      setOutgoing(prevRef.current);
+      if (outT.current) window.clearTimeout(outT.current);
+      outT.current = window.setTimeout(() => setOutgoing(null), 840);
+    }
+    prevRef.current = index;
+    return () => {
+      if (outT.current) window.clearTimeout(outT.current);
+    };
   }, [index]);
 
   // Each slide remounts on change; a slide taller than the viewport (dense
@@ -43,7 +64,10 @@ export default function Deck() {
   // there.
   useEffect(() => {
     const pin = () => {
-      const el = document.querySelector<HTMLElement>(".slide-scroll");
+      // The incoming slide is rendered last, so pin the final scroll layer (the
+      // leaving one keeps its own position while it fades out).
+      const els = document.querySelectorAll<HTMLElement>(".slide-scroll");
+      const el = els[els.length - 1];
       if (el) el.scrollTop = 0;
     };
     pin();
@@ -94,7 +118,7 @@ export default function Deck() {
       step(delta);
       window.setTimeout(() => {
         lock.current = false;
-      }, 750);
+      }, 860);
     };
 
     const isTyping = (t: EventTarget | null) => {
@@ -187,17 +211,39 @@ export default function Deck() {
   }, [go, goById, step]);
 
   const { Comp, id } = slides[index];
+  const leaving = outgoing !== null ? slides[outgoing] : null;
+  const enterVar = {
+    "--enter": dir > 0 ? "20px" : "-20px",
+  } as React.CSSProperties;
 
   return (
     <>
       <Nav active={id} onNavigate={goById} />
 
       <main className="deck">
-        <div
-          key={id}
-          className="deck-slide"
-          style={{ "--enter": dir > 0 ? "18px" : "-18px" } as React.CSSProperties}
-        >
+        {leaving && (
+          <div
+            key={`leave-${outgoing}`}
+            className="deck-slide is-leaving"
+            style={enterVar}
+            aria-hidden="true"
+          >
+            {slideBg[leaving.id] && (
+              <>
+                <div
+                  className="slide-bg"
+                  style={{ backgroundImage: `url(${slideBg[leaving.id]})` }}
+                  aria-hidden="true"
+                />
+                <div className="slide-veil" aria-hidden="true" />
+              </>
+            )}
+            <div className="slide-scroll">
+              <leaving.Comp />
+            </div>
+          </div>
+        )}
+        <div key={id} className="deck-slide is-entering" style={enterVar}>
           {slideBg[id] && (
             <>
               <div

@@ -11,10 +11,19 @@ const CSS = `
   radial-gradient(66% 64% at 50% 51%, rgba(245,240,232,.92), rgba(245,240,232,.6) 56%, rgba(245,240,232,0) 84%),
   linear-gradient(180deg, rgba(245,240,232,.55), rgba(245,240,232,0) 20%, rgba(245,240,232,0) 68%, rgba(245,240,232,.9) 100%);}
 
-.eqh-portrait{width:200px;height:250px;border-radius:10px;overflow:hidden;margin:0 0 32px;
+.eqh-portrait-wrap{margin:0 0 32px;}
+/* The film-look filter is expensive to rasterize; when it rode the slide's
+   entrance transform, Chrome cached a low-res texture of it that stayed blurry
+   until a repaint (refresh). Pinning the portrait to its own GPU layer
+   (translateZ) — separate from the entrance transform on the wrapper — keeps it
+   rendered at full device resolution at all times. */
+.eqh-portrait{width:200px;height:250px;border-radius:10px;overflow:hidden;
   filter:grayscale(1) sepia(.55) saturate(1.5) hue-rotate(-10deg) contrast(.92) brightness(1.04);
+  transform:translateZ(0);-webkit-transform:translateZ(0);
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
   box-shadow:0 30px 64px -30px rgba(60,40,28,.4);outline:1px solid rgba(60,40,28,.08);}
-.eqh-portrait img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.eqh-portrait img{width:100%;height:100%;object-fit:cover;object-position:center;
+  transform:translateZ(0);-webkit-transform:translateZ(0);}
 
 .eqh-eyebrow{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.2em;
   font-size:11px;font-weight:500;color:var(--accent);margin:0 0 22px;
@@ -76,14 +85,18 @@ export default function HeroSection() {
       <div className="eqh-bg" aria-hidden="true" />
 
       <div className="relative z-10 w-full max-w-[680px] mx-auto flex flex-col items-center">
-        <div className="eqh-rise d0 eqh-portrait">
-          <Image
-            src="/headshot-film.webp"
-            alt="Ethan Qureshi"
-            width={200}
-            height={250}
-            priority
-          />
+        <div className="eqh-rise d0 eqh-portrait-wrap">
+          <div className="eqh-portrait">
+            <Image
+              src="/headshot-film.webp"
+              alt="Ethan Qureshi"
+              width={200}
+              height={250}
+              quality={95}
+              sizes="250px"
+              priority
+            />
+          </div>
         </div>
 
         <p className="eqh-rise d1 eqh-eyebrow">

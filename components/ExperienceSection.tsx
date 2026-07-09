@@ -115,16 +115,16 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
         </span>
       </div>
       <p
-        className="font-mono text-[10.5px] md:text-[9px] uppercase tracking-[0.14em] mt-1.5 mb-2 md:mt-1 md:mb-1"
+        className="font-mono text-[10.5px] md:text-[9.5px] uppercase tracking-[0.14em] mt-1.5 mb-2 md:mt-1.5 md:mb-1.5"
         style={{ color: "var(--text-3)" }}
       >
         {entry.role}
       </p>
-      <ul className="space-y-2 md:space-y-1">
+      <ul className="space-y-2 md:space-y-1.5">
         {entry.bullets.map((bullet, i) => (
           <li
             key={i}
-            className="font-body text-[13.5px] md:text-[11.5px] leading-[1.7] md:leading-[1.4] flex gap-2"
+            className="font-body text-[13.5px] md:text-[12px] leading-[1.7] md:leading-[1.5] flex gap-2"
             style={{ color: "var(--text-2)" }}
           >
             <span
@@ -143,11 +143,11 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="px-6 pt-20 pb-10 md:px-12 md:pt-16 md:pb-2"
+      className="px-6 pt-20 pb-10 md:px-12 md:pt-16 md:pb-10"
       style={{ borderTop: "1px solid var(--rule)" }}
     >
       <div className="deck-panel max-w-[1040px] w-full mx-auto">
-        <Reveal className="mb-5 md:mb-3">
+        <Reveal className="mb-5 md:mb-4">
           <p
             className="font-mono uppercase tracking-[0.24em] text-[11px] mb-2"
             style={{ color: "var(--accent)" }}

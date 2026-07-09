@@ -99,20 +99,20 @@ body {
 @media (min-width: 768px) {
   .exp-cols {
     column-count: 2;
+    column-gap: 3.25rem;
   }
   .exp-entry {
-    padding-top: 6px;
-    margin-bottom: 5px;
+    padding-top: 12px;
+    margin-bottom: 13px;
   }
-  /* Experience fits one screen on desktop: top-align it under the nav so it
-     never needs internal scrolling and the header never hides behind the nav.
-     Tighter panel padding keeps the whole slide comfortably under the fold. */
-  .slide-scroll > #experience {
-    justify-content: flex-start;
-  }
+  /* Experience is vertically centered on desktop and still fits one screen: it
+     inherits the deck's `safe center`, so it sits mid-screen on tall monitors
+     and falls back to top-alignment (with internal scroll) only on very short
+     windows — the header never hides behind the nav. Roomier panel padding and
+     entry spacing ease the density that made it feel cramped. */
   #experience .deck-panel {
-    padding-top: 24px;
-    padding-bottom: 22px;
+    padding-top: 26px;
+    padding-bottom: 26px;
   }
 }
 
@@ -209,7 +209,18 @@ body {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  animation: deckIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* Buttery paging: the incoming slide dissolves up over the outgoing one, which
+   lingers underneath and drifts away. A single long, gently-eased cross-fade
+   reads as smooth rather than a snappy hard cut. */
+.deck-slide.is-entering {
+  z-index: 2;
+  animation: slideEnter 0.82s cubic-bezier(0.33, 0, 0.15, 1) both;
+}
+.deck-slide.is-leaving {
+  z-index: 1;
+  pointer-events: none;
+  animation: slideLeave 0.82s cubic-bezier(0.33, 0, 0.15, 1) both;
 }
 /* Scroll layer sits above the fixed bg/veil. Content centers when it fits and
    scrolls internally when it's taller than the screen (dense slides on mobile),
@@ -234,14 +245,24 @@ body {
   background: transparent;
   border-top: none !important;
 }
-@keyframes deckIn {
+@keyframes slideEnter {
   from {
     opacity: 0;
-    transform: translateY(var(--enter, 18px));
+    transform: translate3d(0, var(--enter, 20px), 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes slideLeave {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--enter, 20px) * -0.45), 0);
   }
 }
 
@@ -393,8 +414,11 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .deck-slide {
+  .deck-slide.is-entering,
+  .deck-slide.is-leaving {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
   .deck-hint,
   .deck-nav {
