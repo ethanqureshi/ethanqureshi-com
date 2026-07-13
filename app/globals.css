@@ -410,6 +410,490 @@ body {
   }
 }
 
+/* ── Boot loader ─────────────────────────────────────────────────────────
+   A scrambled Rubik's cube flies in, twists itself solved, and dissolves into
+   the site — all inside 3s. It is an *overlay*, not a gate: the deck is already
+   rendered and interactive underneath, and every frame here is a CSS keyframe,
+   so the animation starts at first paint rather than waiting on hydration. The
+   whole thing also self-destructs in pure CSS (`rcOverlay` ends at
+   visibility: hidden), so a slow or failed JS bundle can never strand a visitor
+   behind it. Any click/tap/keypress skips it instantly. */
+.rc {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  background: var(--bg);
+  cursor: pointer;
+  animation: rcOverlay 3s linear forwards;
+}
+/* Halftone dither, drawn with a gradient rather than an image (no extra
+   request), masked so it thickens toward the edges like the slide vignette. */
+.rc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(34, 30, 26, 0.55) 1px,
+    transparent 1.6px
+  );
+  background-size: 5px 5px;
+  opacity: 0.13;
+  -webkit-mask-image: radial-gradient(
+    62% 62% at 50% 44%,
+    transparent 30%,
+    #000 100%
+  );
+  mask-image: radial-gradient(62% 62% at 50% 44%, transparent 30%, #000 100%);
+}
+@keyframes rcOverlay {
+  0%,
+  86.5% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+/* Skip: kill the timeline and drop out in ~1 frame-and-a-half. */
+.rc.is-skipped {
+  animation: rcSkip 0.15s linear forwards;
+}
+@keyframes rcSkip {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* The scene carries the fade, not the cube. Animating opacity on the cube would
+   give it an implicit will-change: opacity, and a grouping property on a
+   preserve-3d element forces it back to `flat` — which collapses all 26 cubies
+   into a single flat 3x3 grid. The 3D root must animate transform only. */
+.rc-scene {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  height: 240px;
+  perspective: 800px;
+  opacity: 0;
+  animation: rcFade 3s linear forwards;
+}
+@keyframes rcFade {
+  0% {
+    opacity: 0;
+  }
+  8%,
+  86.5% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.rc-glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    rgba(184, 86, 63, 0.3),
+    rgba(184, 86, 63, 0) 66%
+  );
+  animation: rcGlow 3s linear forwards;
+}
+/* Bloom on the solve, then it carries the cube out. */
+@keyframes rcGlow {
+  0%,
+  78% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  86.5% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* The cube is a zero-size origin at the centre of the scene; layers, cubies and
+   faces hang off it in 3D. */
+.rc-cube,
+.rc-turn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+/* Zero-size, so it must be pinned to the middle of the scene by hand — that
+   point is also the perspective origin, which keeps the projection honest. */
+.rc-cube {
+  left: 50%;
+  top: 50%;
+  animation: rcFly 3s cubic-bezier(0.22, 0.9, 0.25, 1) forwards;
+}
+/* Flies in from the far distance, tumbling, settles into a three-quarter view,
+   pops on the solve, then rushes the camera as the overlay fades. */
+@keyframes rcFly {
+  0% {
+    transform: translate3d(-170px, -120px, -780px) rotateX(-54deg)
+      rotateY(-295deg) scale(1);
+  }
+  20% {
+    transform: translate3d(0, 0, 0) rotateX(-26deg) rotateY(-36deg) scale(1);
+    animation-timing-function: cubic-bezier(0.25, 0.5, 0.35, 1);
+  }
+  78% {
+    transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-22deg) scale(1);
+  }
+  83.3% {
+    transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-21deg) scale(1.07);
+  }
+  86.5% {
+    transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-21deg) scale(1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-21deg) scale(1.35);
+  }
+}
+
+/* The eight quarter turns. Each rc-tN wrapper rotates about the cube's centre on
+   its own axis, and a cubie is nested inside one wrapper per move it rides — so
+   R, U, F, L, D, B and the two middle slices are all real turns, on real arcs,
+   not a horizontal spin. Timings must match the MOVES array in Loader.tsx: turn
+   N runs from 640 + 215N ms for 190ms, the last one landing at 2.34s, just as
+   the stickers finish resolving. */
+.rc-turn {
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.32, 1.22, 0.46, 1);
+}
+.rc-t0 {
+  animation-name: rcT0;
+}
+.rc-t1 {
+  animation-name: rcT1;
+}
+.rc-t2 {
+  animation-name: rcT2;
+}
+.rc-t3 {
+  animation-name: rcT3;
+}
+.rc-t4 {
+  animation-name: rcT4;
+}
+.rc-t5 {
+  animation-name: rcT5;
+}
+.rc-t6 {
+  animation-name: rcT6;
+}
+.rc-t7 {
+  animation-name: rcT7;
+}
+@keyframes rcT0 {
+  0%,
+  21.3% {
+    transform: rotateX(0deg);
+  }
+  27.7%,
+  100% {
+    transform: rotateX(90deg);
+  }
+}
+@keyframes rcT1 {
+  0%,
+  28.5% {
+    transform: rotateY(0deg);
+  }
+  34.8%,
+  100% {
+    transform: rotateY(-90deg);
+  }
+}
+@keyframes rcT2 {
+  0%,
+  35.7% {
+    transform: rotateZ(0deg);
+  }
+  42%,
+  100% {
+    transform: rotateZ(90deg);
+  }
+}
+@keyframes rcT3 {
+  0%,
+  42.8% {
+    transform: rotateX(0deg);
+  }
+  49.2%,
+  100% {
+    transform: rotateX(90deg);
+  }
+}
+@keyframes rcT4 {
+  0%,
+  50% {
+    transform: rotateY(0deg);
+  }
+  56.3%,
+  100% {
+    transform: rotateY(90deg);
+  }
+}
+@keyframes rcT5 {
+  0%,
+  57.2% {
+    transform: rotateZ(0deg);
+  }
+  63.5%,
+  100% {
+    transform: rotateZ(-90deg);
+  }
+}
+@keyframes rcT6 {
+  0%,
+  64.3% {
+    transform: rotateX(0deg);
+  }
+  70.7%,
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+@keyframes rcT7 {
+  0%,
+  71.5% {
+    transform: rotateY(0deg);
+  }
+  77.8%,
+  100% {
+    transform: rotateY(90deg);
+  }
+}
+
+.rc-cubie {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  transform-style: preserve-3d;
+}
+/* Every cubie carries all six faces; the inner ones stay plastic-dark so the
+   cube reads solid while a slice is mid-turn. */
+.rc-face {
+  position: absolute;
+  inset: 0;
+  border: 3px solid #16130f;
+  border-radius: 9px;
+  background: #16130f;
+  backface-visibility: hidden;
+}
+.rc-u {
+  transform: rotateX(90deg) translateZ(28px);
+}
+.rc-d {
+  transform: rotateX(-90deg) translateZ(28px);
+}
+.rc-f {
+  transform: translateZ(28px);
+}
+.rc-b {
+  transform: rotateY(180deg) translateZ(28px);
+}
+.rc-r {
+  transform: rotateY(90deg) translateZ(28px);
+}
+.rc-l {
+  transform: rotateY(-90deg) translateZ(28px);
+}
+/* Stickers start scrambled (--s) and flip to their solved colour (--k) on a
+   staggered wave (--d) that finishes with the last turn. */
+.rc-face--sticker {
+  background: var(--s);
+  animation: rcSolve 0.36s cubic-bezier(0.4, 0, 0.2, 1) var(--d) both;
+}
+/* The flash is a box-shadow, not a filter: a filter here would flatten the face
+   out of the cube's 3D rendering context. */
+@keyframes rcSolve {
+  0%,
+  46% {
+    background: var(--s);
+    box-shadow: none;
+  }
+  56% {
+    background: var(--s);
+    box-shadow: inset 0 0 0 30px rgba(245, 240, 232, 0.6);
+  }
+  100% {
+    background: var(--k);
+    box-shadow: none;
+  }
+}
+
+/* Counter + rule. The percentage is driven by an animated registered custom
+   property rendered through a CSS counter — no state, no re-renders, and it
+   shares the same clock as the cube, so it cannot drift out of sync with the
+   solve. It hits 100% at 2.6s, the moment the last sticker lands. */
+@property --pct {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+.rc-hud {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.rc-bar {
+  width: 176px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.rc-bar i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: rcFill 2.6s linear forwards;
+}
+/* Bar and counter share one set of stops, so they move as a single object. The
+   bursts-and-plateaus shape reads like a real loader; a linear ramp reads like
+   a metronome. */
+@keyframes rcFill {
+  0% {
+    transform: scaleX(0);
+  }
+  16% {
+    transform: scaleX(0.21);
+  }
+  30% {
+    transform: scaleX(0.28);
+  }
+  48% {
+    transform: scaleX(0.56);
+  }
+  60% {
+    transform: scaleX(0.62);
+  }
+  78% {
+    transform: scaleX(0.87);
+  }
+  90% {
+    transform: scaleX(0.93);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+.rc-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 176px;
+}
+.rc-label,
+.rc-skip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.rc-pct {
+  --pct: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  animation: rcCount 2.6s linear forwards;
+  /* The counter is reset on the element, not on ::after: --pct is a
+     non-inheriting registered property, so ::after cannot read it. The counter
+     itself is in scope for the pseudo-element either way. */
+  counter-reset: pct var(--pct);
+}
+.rc-pct::after {
+  content: counter(pct) "%";
+}
+@keyframes rcCount {
+  0% {
+    --pct: 0;
+  }
+  16% {
+    --pct: 21;
+  }
+  30% {
+    --pct: 28;
+  }
+  48% {
+    --pct: 56;
+  }
+  60% {
+    --pct: 62;
+  }
+  78% {
+    --pct: 87;
+  }
+  90% {
+    --pct: 93;
+  }
+  100% {
+    --pct: 100;
+  }
+}
+.rc-skip {
+  position: absolute;
+  bottom: 28px;
+  opacity: 0;
+  animation: rcHint 3s linear forwards;
+}
+@keyframes rcHint {
+  0%,
+  22% {
+    opacity: 0;
+  }
+  40%,
+  80% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .rc-scene {
+    transform: scale(0.78);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -423,5 +907,9 @@ body {
   .deck-hint,
   .deck-nav {
     animation: none;
+  }
+  /* No cinematic for anyone who asked not to have one — straight to the site. */
+  .rc {
+    display: none;
   }
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono } from "next/font/google";
+import Loader from "@/components/Loader";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -41,7 +42,12 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {/* The site renders first and in full; the loader is only an overlay on
+            top of it, so nothing below waits on the animation. */}
+        {children}
+        <Loader />
+      </body>
     </html>
   );
 }
