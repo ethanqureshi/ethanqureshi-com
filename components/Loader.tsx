@@ -47,7 +47,10 @@ const NORMAL: Record<Face, Vec> = {
   L: [-1, 0, 0],
 };
 
-// The solve: sixteen quarter turns, one per 120ms, touching all six faces.
+// The solve: sixteen quarter turns, one per 90ms, touching all six faces. They
+// run from 420ms to 1.855s, after which the cube hangs there solved and dead
+// still for ~585ms before flying out — that pause is the whole point of the
+// finish, so the viewer actually registers that it got solved.
 //
 // These are not random. A random scramble played backwards lurches — it looks
 // like flailing, then snaps together in the last two turns. This sequence was
