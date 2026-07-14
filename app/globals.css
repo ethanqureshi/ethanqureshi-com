@@ -429,6 +429,9 @@ body {
   gap: 40px;
   background: var(--bg);
   cursor: pointer;
+  /* The cube leaves the frame on the way out; clip it rather than let it push a
+     scrollbar out of a fixed overlay. */
+  overflow: hidden;
   animation: rcOverlay 3s linear forwards;
 }
 /* Halftone dither, drawn with a gradient rather than an image (no extra
@@ -454,7 +457,7 @@ body {
 }
 @keyframes rcOverlay {
   0%,
-  85% {
+  84% {
     opacity: 1;
   }
   100% {
@@ -495,7 +498,7 @@ body {
     opacity: 0;
   }
   8%,
-  85% {
+  84% {
     opacity: 1;
   }
   100% {
@@ -520,15 +523,15 @@ body {
    opens up and carries it out. */
 @keyframes rcGlow {
   0%,
-  58% {
+  66% {
     opacity: 0;
     transform: scale(0.7);
   }
-  64% {
+  72% {
     opacity: 1;
     transform: scale(1);
   }
-  85% {
+  84% {
     opacity: 0.55;
     transform: scale(1.05);
   }
@@ -556,15 +559,18 @@ body {
   top: 50%;
   animation: rcFly 3s cubic-bezier(0.22, 0.9, 0.25, 1) forwards;
 }
-/* The camera. Flies in from the far distance, tumbling, and is settled into a
-   three-quarter view by 13% — just before the first turn at 14%.
-     61.83%  last turn lands (1.855s)
-     64%     a small pop, as if the cube seats itself
-     65.5%   ...settled. From here to 85% the cube does not move at all: it just
-             hangs there, solved, for ~585ms. That pause is the finish — without
-             it the solve reads as a blur and the viewer never sees the payoff.
-     85%     the cube accelerates away from the viewer and off the top of the
-             screen (1.86s → 3s) while the overlay fades out beneath it
+/* The camera. Flies in from the far distance, tumbling, and settles into a
+   three-quarter view by 13% — where it sits, scrambled and still, for a short
+   beat before the first turn at 22.5%. That beat is deliberate: it gives the eye
+   a moment to read the cube as scrambled, so the solve that follows means
+   something.
+     70.33%  last turn lands (2.11s)
+     72%     a small pop, as if the cube seats itself
+     74%     ...settled. From here to 84% the cube does not move at all: it hangs
+             there, solved, for ~300ms — long enough to register, short enough
+             not to stall.
+     84%     the cube accelerates away from the viewer and off the top of the
+             screen (2.52s → 3s) while the overlay fades out beneath it
    The hold keyframe carries the ease-in, so the exit it governs launches rather
    than drifts. */
 @keyframes rcFly {
@@ -576,14 +582,14 @@ body {
     transform: translate3d(0, 0, 0) rotateX(-26deg) rotateY(-36deg) scale(1);
     animation-timing-function: cubic-bezier(0.25, 0.5, 0.35, 1);
   }
-  61.83% {
+  70.33% {
     transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-22deg) scale(1);
   }
-  64% {
+  72% {
     transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-21deg) scale(1.06);
   }
-  65.5%,
-  85% {
+  74%,
+  84% {
     transform: translate3d(0, 0, 0) rotateX(-23deg) rotateY(-21deg) scale(1);
     animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.35);
   }
@@ -598,10 +604,10 @@ body {
    so every face turns on a real arc, not a horizontal spin.
 
    Timings must match the MOVES array in Loader.tsx: turn N starts at
-   420 + 90N ms and takes 85ms, so they run back to back and the last one lands
-   at 1.855s — the moment the counter hits 100%. The cube then hovers there,
-   solved and dead still, for ~0.6s before it flies out. As percentages of the 3s
-   timeline: turn N spans (14 + 3N)% to (16.83 + 3N)%. */
+   675 + 90N ms and takes 85ms, so they run back to back and the last one lands
+   at 2.11s — the moment the counter hits 100%. The cube then hovers there,
+   solved and dead still, for ~300ms before it flies out. As percentages of the
+   3s timeline: turn N spans (22.5 + 3N)% to (25.33 + 3N)%. */
 .rc-turn {
   animation-duration: 3s;
   animation-fill-mode: forwards;
@@ -658,10 +664,10 @@ body {
 /* D' */
 @keyframes rcT0 {
   0%,
-  14% {
+  22.5% {
     transform: rotateY(0deg);
   }
-  16.83%,
+  25.33%,
   100% {
     transform: rotateY(-90deg);
   }
@@ -669,10 +675,10 @@ body {
 /* B' */
 @keyframes rcT1 {
   0%,
-  17% {
+  25.5% {
     transform: rotateZ(0deg);
   }
-  19.83%,
+  28.33%,
   100% {
     transform: rotateZ(-90deg);
   }
@@ -680,10 +686,10 @@ body {
 /* U */
 @keyframes rcT2 {
   0%,
-  20% {
+  28.5% {
     transform: rotateY(0deg);
   }
-  22.83%,
+  31.33%,
   100% {
     transform: rotateY(90deg);
   }
@@ -691,10 +697,10 @@ body {
 /* F' */
 @keyframes rcT3 {
   0%,
-  23% {
+  31.5% {
     transform: rotateZ(0deg);
   }
-  25.83%,
+  34.33%,
   100% {
     transform: rotateZ(-90deg);
   }
@@ -702,10 +708,10 @@ body {
 /* U */
 @keyframes rcT4 {
   0%,
-  26% {
+  34.5% {
     transform: rotateY(0deg);
   }
-  28.83%,
+  37.33%,
   100% {
     transform: rotateY(90deg);
   }
@@ -713,10 +719,10 @@ body {
 /* F' */
 @keyframes rcT5 {
   0%,
-  29% {
+  37.5% {
     transform: rotateZ(0deg);
   }
-  31.83%,
+  40.33%,
   100% {
     transform: rotateZ(-90deg);
   }
@@ -724,10 +730,10 @@ body {
 /* L */
 @keyframes rcT6 {
   0%,
-  32% {
+  40.5% {
     transform: rotateX(0deg);
   }
-  34.83%,
+  43.33%,
   100% {
     transform: rotateX(90deg);
   }
@@ -735,10 +741,10 @@ body {
 /* U */
 @keyframes rcT7 {
   0%,
-  35% {
+  43.5% {
     transform: rotateY(0deg);
   }
-  37.83%,
+  46.33%,
   100% {
     transform: rotateY(90deg);
   }
@@ -746,10 +752,10 @@ body {
 /* R' */
 @keyframes rcT8 {
   0%,
-  38% {
+  46.5% {
     transform: rotateX(0deg);
   }
-  40.83%,
+  49.33%,
   100% {
     transform: rotateX(-90deg);
   }
@@ -757,10 +763,10 @@ body {
 /* F */
 @keyframes rcT9 {
   0%,
-  41% {
+  49.5% {
     transform: rotateZ(0deg);
   }
-  43.83%,
+  52.33%,
   100% {
     transform: rotateZ(90deg);
   }
@@ -768,10 +774,10 @@ body {
 /* D */
 @keyframes rcT10 {
   0%,
-  44% {
+  52.5% {
     transform: rotateY(0deg);
   }
-  46.83%,
+  55.33%,
   100% {
     transform: rotateY(90deg);
   }
@@ -779,10 +785,10 @@ body {
 /* R */
 @keyframes rcT11 {
   0%,
-  47% {
+  55.5% {
     transform: rotateX(0deg);
   }
-  49.83%,
+  58.33%,
   100% {
     transform: rotateX(90deg);
   }
@@ -790,10 +796,10 @@ body {
 /* F' */
 @keyframes rcT12 {
   0%,
-  50% {
+  58.5% {
     transform: rotateZ(0deg);
   }
-  52.83%,
+  61.33%,
   100% {
     transform: rotateZ(-90deg);
   }
@@ -801,10 +807,10 @@ body {
 /* R' */
 @keyframes rcT13 {
   0%,
-  53% {
+  61.5% {
     transform: rotateX(0deg);
   }
-  55.83%,
+  64.33%,
   100% {
     transform: rotateX(-90deg);
   }
@@ -812,10 +818,10 @@ body {
 /* D */
 @keyframes rcT14 {
   0%,
-  56% {
+  64.5% {
     transform: rotateY(0deg);
   }
-  58.83%,
+  67.33%,
   100% {
     transform: rotateY(90deg);
   }
@@ -823,10 +829,10 @@ body {
 /* R' */
 @keyframes rcT15 {
   0%,
-  59% {
+  67.5% {
     transform: rotateX(0deg);
   }
-  61.83%,
+  70.33%,
   100% {
     transform: rotateX(-90deg);
   }
@@ -876,7 +882,7 @@ body {
 /* Counter + rule. The percentage is driven by an animated registered custom
    property rendered through a CSS counter — no state, no re-renders, and it
    shares the same clock as the cube, so it cannot drift out of sync with the
-   solve. It hits 100% at 1.855s, on the final turn — and then, like the cube,
+   solve. It hits 100% at 2.11s, on the final turn — and then, like the cube,
    simply sits there finished while the overlay holds. */
 @property --pct {
   syntax: "<integer>";
@@ -904,7 +910,7 @@ body {
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
-  animation: rcFill 1.855s linear forwards;
+  animation: rcFill 2.11s linear forwards;
 }
 /* Bar and counter share one set of stops, so they move as a single object. The
    bursts-and-plateaus shape reads like a real loader; a linear ramp reads like
@@ -956,7 +962,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--accent);
-  animation: rcCount 1.855s linear forwards;
+  animation: rcCount 2.11s linear forwards;
   /* The counter is reset on the element, not on ::after: --pct is a
      non-inheriting registered property, so ::after cannot read it. The counter
      itself is in scope for the pseudo-element either way. */
@@ -1000,22 +1006,41 @@ body {
 /* Gone before the cube leaves — there is nothing left to skip by then. */
 @keyframes rcHint {
   0%,
-  16% {
+  18% {
     opacity: 0;
   }
-  30%,
-  66% {
+  32%,
+  70% {
     opacity: 0.75;
   }
-  82%,
+  81%,
   100% {
     opacity: 0;
   }
 }
 
+/* Phones. The scene is a fixed 240px box, so it is shrunk as a whole rather than
+   re-sized piecemeal — that keeps the cube, its perspective and its glow in
+   proportion. */
 @media (max-width: 640px) {
+  .rc {
+    gap: 32px;
+  }
   .rc-scene {
-    transform: scale(0.78);
+    transform: scale(0.74);
+  }
+}
+/* Landscape phones, where height is the scarce axis and the 240px scene plus the
+   HUD would otherwise crowd the viewport. */
+@media (max-height: 480px) {
+  .rc {
+    gap: 20px;
+  }
+  .rc-scene {
+    transform: scale(0.62);
+  }
+  .rc-skip {
+    bottom: 12px;
   }
 }
 
