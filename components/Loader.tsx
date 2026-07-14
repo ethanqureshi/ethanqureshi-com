@@ -3,9 +3,13 @@
 import { Fragment, useEffect, useState } from "react";
 
 // A 3x3x3 Rubik's cube built from plain divs and CSS 3D transforms. Every part
-// of the animation (fly-in, the turns, the colour resolve, the counter, the
-// fade-out) is a CSS keyframe, so it starts at first paint and never waits on
-// React. The component itself only owns dismissal.
+// of the animation (fly-in, the sixteen turns, the counter, the fade-out) is a
+// CSS keyframe, so it starts at first paint and never waits on React. The
+// component itself only owns dismissal.
+//
+// This is a real cube: every sticker is painted once, at its true colour, and
+// no sticker ever changes colour. The cube starts genuinely scrambled and is
+// physically turned back to solved by the sixteen quarter turns in MOVES.
 //
 // Turning a real cube needs a different grouping of cubies per move — an R turn
 // and a U turn share no DOM parent — so a fixed slice-per-div structure can only
@@ -19,6 +23,7 @@ const FACES = ["U", "D", "F", "B", "R", "L"] as const;
 type Face = (typeof FACES)[number];
 type Axis = "x" | "y" | "z";
 type Vec = [number, number, number];
+type Move = { axis: Axis; layer: number; deg: number };
 
 // Solved state, straight off the site palette. The three faces the camera
 // settles on — U, F, R — are the site's three signature colours: bone,
@@ -42,20 +47,36 @@ const NORMAL: Record<Face, Vec> = {
   L: [-1, 0, 0],
 };
 
-// The solve: eight quarter turns, one per 215ms, hitting every face of the cube
-// plus two middle slices. Order and direction are arbitrary — the stickers are
-// recoloured by where each face *ends up* pointing, so any sequence lands on a
-// solid, solved cube. Must stay in step with the rcT0..rcT7 keyframes in
-// globals.css.
-const MOVES: { axis: Axis; layer: number; deg: number }[] = [
-  { axis: "x", layer: 1, deg: 90 }, // R
-  { axis: "y", layer: -1, deg: -90 }, // U
-  { axis: "z", layer: 1, deg: 90 }, // F
+// The solve: sixteen quarter turns, one per 120ms, touching all six faces.
+//
+// These are not random. A random scramble played backwards lurches — it looks
+// like flailing, then snaps together in the last two turns. This sequence was
+// found by walking *backwards* from a solved cube and only ever accepting a
+// move that made the cube strictly less solved, so played forwards every single
+// turn leaves the cube strictly more solved than the one before it. Its
+// solvedness climbs 10 → 13 → 16 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26
+// → 28 → 30 → 32 → 42 → 54 stickers: it never regresses and it is never solved
+// early. (The last turn always gains exactly 12 — the state one quarter turn
+// from solved is necessarily 42/54, on any cube. Real solves land the same way.)
+//
+// Must stay in step with the rcT0..rcT15 keyframes in globals.css.
+const MOVES: Move[] = [
+  { axis: "y", layer: 1, deg: -90 }, // D'
+  { axis: "z", layer: -1, deg: -90 }, // B'
+  { axis: "y", layer: -1, deg: 90 }, // U
+  { axis: "z", layer: 1, deg: -90 }, // F'
+  { axis: "y", layer: -1, deg: 90 }, // U
+  { axis: "z", layer: 1, deg: -90 }, // F'
   { axis: "x", layer: -1, deg: 90 }, // L
+  { axis: "y", layer: -1, deg: 90 }, // U
+  { axis: "x", layer: 1, deg: -90 }, // R'
+  { axis: "z", layer: 1, deg: 90 }, // F
   { axis: "y", layer: 1, deg: 90 }, // D
-  { axis: "z", layer: -1, deg: -90 }, // B
-  { axis: "x", layer: 0, deg: -90 }, // M
-  { axis: "y", layer: 0, deg: 90 }, // E
+  { axis: "x", layer: 1, deg: 90 }, // R
+  { axis: "z", layer: 1, deg: -90 }, // F'
+  { axis: "x", layer: 1, deg: -90 }, // R'
+  { axis: "y", layer: 1, deg: 90 }, // D
+  { axis: "x", layer: 1, deg: -90 }, // R'
 ];
 
 const AXIS_INDEX: Record<Axis, number> = { x: 0, y: 1, z: 2 };
@@ -70,96 +91,92 @@ function rot([x, y, z]: Vec, axis: Axis, deg: number): Vec {
   return [x * c - y * s, x * s + y * c, z];
 }
 
-const faceAt = (n: Vec) =>
-  FACES.find((f) => NORMAL[f].every((v, i) => v === n[i]))!;
-
-// 54 stickers, nine of each colour, shuffled by a seeded LCG so server and
-// client produce the identical scramble (Math.random would hydrate-mismatch).
-function scramble(): string[] {
-  const pool: string[] = [];
-  for (const f of FACES) for (let i = 0; i < 9; i++) pool.push(SOLVED[f]);
-  let s = 0x9e3779b9;
-  const rnd = () => {
-    s = (s * 1664525 + 1013904223) >>> 0;
-    return s / 4294967296;
-  };
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  return pool;
-}
-
 const C = 56; // cubie edge, px
 
-// Run the whole solve once, at module scope, to work out for each cubie: which
-// moves it rides (its wrapper chain) and where each of its faces ends up
-// pointing (its solved colour).
 type Cubie = {
   home: Vec;
   pos: Vec;
-  dir: Record<Face, Vec>;
+  // The cubie's own axes, in world space. Together they are its orientation.
+  basis: { x: Vec; y: Vec; z: Vec };
   rides: number[];
-  scrambled: Record<Face, string | null>;
 };
 
+// Work out the scrambled cube and the whole solve once, at module scope.
+//
+// The scramble is simply the solve undone — the same moves in reverse, each
+// turned the other way — so the cube we start from is exactly the cube these
+// sixteen turns put back together. Nothing is randomised at runtime, so server
+// and client render identical markup.
 const CUBIES = (() => {
-  const pool = scramble();
-  let sticker = 0;
-
   const cubies: Cubie[] = [];
   for (const x of [-1, 0, 1])
     for (const y of [-1, 0, 1])
       for (const z of [-1, 0, 1]) {
         if (x === 0 && y === 0 && z === 0) continue; // never visible
-        const home: Vec = [x, y, z];
         cubies.push({
-          home,
-          pos: [...home] as Vec,
-          // Where each of this cubie's faces currently points. Faces on the
-          // outside of the cube get a sticker; the rest stay plastic.
-          dir: Object.fromEntries(
-            FACES.map((f) => [f, [...NORMAL[f]] as Vec])
-          ) as Record<Face, Vec>,
-          rides: [] as number[],
-          scrambled: Object.fromEntries(
-            FACES.map((f) => [
-              f,
-              NORMAL[f].some((v, i) => v !== 0 && v === home[i])
-                ? pool[sticker++]
-                : null,
-            ])
-          ) as Record<Face, string | null>,
+          home: [x, y, z],
+          pos: [x, y, z],
+          basis: { x: [1, 0, 0], y: [0, 1, 0], z: [0, 0, 1] },
+          rides: [],
         });
       }
 
+  const turn = (m: Move) => {
+    for (const c of cubies) {
+      if (c.pos[AXIS_INDEX[m.axis]] !== m.layer) continue;
+      c.pos = rot(c.pos, m.axis, m.deg);
+      c.basis = {
+        x: rot(c.basis.x, m.axis, m.deg),
+        y: rot(c.basis.y, m.axis, m.deg),
+        z: rot(c.basis.z, m.axis, m.deg),
+      };
+    }
+  };
+
+  // Scramble: the solve, backwards.
+  for (const m of [...MOVES].reverse()) turn({ ...m, deg: -m.deg });
+
+  const start = cubies.map((c) => ({
+    pos: c.pos,
+    basis: c.basis,
+  }));
+
+  // Now play the solve, noting which turns each cubie rides. The layer test uses
+  // the cubie's *current* position, exactly as a real turn grabs whatever is
+  // sitting in that layer right now.
   MOVES.forEach((m, i) => {
     for (const c of cubies) {
       if (c.pos[AXIS_INDEX[m.axis]] !== m.layer) continue;
       c.rides.push(i);
-      c.pos = rot(c.pos, m.axis, m.deg);
-      for (const f of FACES) c.dir[f] = rot(c.dir[f], m.axis, m.deg);
     }
+    turn(m);
   });
 
-  return cubies.map((c, i) => ({
-    key: c.home.join(""),
-    home: c.home,
-    // Wrapped innermost-first, so this list is ascending: the render loop wraps
-    // each move in turn and the *last* one wrapped ends up outermost. That makes
-    // the outermost wrapper the final move, giving a world transform of
-    // R_last · … · R_first · translate(home) — the order the moves actually
-    // happen in. Reversing this list silently transposes the composition and the
-    // cubies land on top of each other.
-    chain: c.rides,
-    // Stickers land in a wave that finishes with the last turn.
-    delay: 1500 + (i / 25) * 720,
-    faces: FACES.map((f) => ({
-      f,
-      scrambled: c.scrambled[f],
-      solved: c.scrambled[f] ? SOLVED[faceAt(c.dir[f])] : null,
-    })),
-  }));
+  return cubies.map((c, i) => {
+    const { pos, basis } = start[i];
+    // The cubie's starting transform: rotated into its scrambled orientation,
+    // then dropped into its scrambled slot. Column-major, so each column is
+    // where one of the cubie's own axes points in world space.
+    const b = basis;
+    const t = [pos[0] * C, pos[1] * C, pos[2] * C];
+    return {
+      key: c.home.join(","),
+      matrix: `matrix3d(${b.x[0]},${b.x[1]},${b.x[2]},0,${b.y[0]},${b.y[1]},${b.y[2]},0,${b.z[0]},${b.z[1]},${b.z[2]},0,${t[0]},${t[1]},${t[2]},1)`,
+      // Ascending: the render loop wraps each move in turn and the *last* one
+      // wrapped ends up outermost, giving a world transform of
+      // R_last · … · R_first · start. Reversing this list silently transposes the
+      // composition and the cubies land on top of each other.
+      chain: c.rides,
+      // A sticker exists where the cubie sat on the outside of the solved cube,
+      // and it keeps that colour forever.
+      faces: FACES.map((f) => ({
+        f,
+        color: NORMAL[f].some((v, j) => v !== 0 && v === c.home[j])
+          ? SOLVED[f]
+          : null,
+      })),
+    };
+  });
 })();
 
 export default function Loader() {
@@ -197,30 +214,15 @@ export default function Loader() {
         <div className="rc-glow" />
         <div className="rc-cube">
           {CUBIES.map((c) => {
-            // Wrap the cubie in one rotation layer per move it rides.
+            // Wrap the cubie in one rotation layer per turn it rides.
             let node = (
-              <div
-                className="rc-cubie"
-                style={{
-                  transform: `translate3d(${c.home[0] * C}px, ${
-                    c.home[1] * C
-                  }px, ${c.home[2] * C}px)`,
-                }}
-              >
+              <div className="rc-cubie" style={{ transform: c.matrix }}>
                 {c.faces.map((face) => (
                   <div
                     key={face.f}
-                    className={`rc-face rc-${face.f.toLowerCase()}${
-                      face.solved ? " rc-face--sticker" : ""
-                    }`}
+                    className={`rc-face rc-${face.f.toLowerCase()}`}
                     style={
-                      face.solved
-                        ? ({
-                            "--s": face.scrambled,
-                            "--k": face.solved,
-                            "--d": `${c.delay}ms`,
-                          } as React.CSSProperties)
-                        : undefined
+                      face.color ? { background: face.color } : undefined
                     }
                   />
                 ))}

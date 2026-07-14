@@ -38,6 +38,12 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Don't advertise the framework/version.
   poweredByHeader: false,
+  images: {
+    // Next 16 only generates the qualities listed here, and warns on any other
+    // value. The headshot is the one image where the extra fidelity is worth the
+    // bytes — it's large, and 75 leaves visible artefacts in the film grain.
+    qualities: [75, 95],
+  },
   async headers() {
     return [
       {
