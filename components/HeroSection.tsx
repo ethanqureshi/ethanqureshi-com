@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 
 const CSS = `
@@ -35,9 +35,10 @@ const CSS = `
   color:#453e35;line-height:1.85;max-width:40rem;margin:0 0 36px;
   text-shadow:0 0 10px rgba(245,240,232,.95),0 1px 0 rgba(245,240,232,.7);}
 /* Each affiliation is an unbreakable unit that carries its own trailing dot, so
-   a wrap never splits a company name or starts a line with a stray separator. */
+   a wrap never splits a company name or starts a line with a stray separator.
+   The break opportunities are the plain spaces rendered between the items. */
 .eqh-affil-item{white-space:nowrap;}
-.eqh-affil-sep{margin:0 .5em;}
+.eqh-affil-sep{margin-left:.5em;}
 .eqh-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
 .eqh-btn{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-size:12px;
   padding:13px 28px;border-radius:2px;cursor:pointer;border:1px solid transparent;
@@ -47,6 +48,18 @@ const CSS = `
 .eqh-btn-ghost{background:rgba(245,240,232,.35);border-color:rgba(69,62,53,.28);color:#453e35;}
 .eqh-btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
 .eqh-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+@media (max-width: 640px){
+  /* Six affiliations need three lines on a phone; shrink the type and tighten
+     the block so the strip stays legible without pushing the CTAs off screen. */
+  .eqh-portrait{width:168px;height:210px;}
+  .eqh-eyebrow{font-size:10px;letter-spacing:.16em;margin:0 0 16px;}
+  .eqh-name{margin:0 0 16px;}
+  .eqh-affil{font-size:11px;line-height:1.75;max-width:22rem;margin:0 0 26px;}
+  .eqh-affil-sep{margin-left:.4em;}
+  .eqh-cta{gap:10px;}
+  .eqh-btn{padding:12px 22px;font-size:11.5px;}
+}
 
 .eqh-rise{opacity:0;transform:translateY(14px);
   transition:opacity .9s ease,transform .9s cubic-bezier(.16,1,.3,1);}
@@ -119,16 +132,22 @@ export default function HeroSection() {
         <h1 className="eqh-rise d2 eqh-name">Ethan Qureshi</h1>
 
         <p className="eqh-rise d3 eqh-affil">
-          {AFFILIATIONS.map((name, i) => (
-            <span key={name} className="eqh-affil-item">
-              {name}
-              {i < AFFILIATIONS.length - 1 && (
-                <span className="eqh-affil-sep" aria-hidden="true">
-                  ·
+          {AFFILIATIONS.map((name, i) => {
+            const last = i === AFFILIATIONS.length - 1;
+            return (
+              <Fragment key={name}>
+                <span className="eqh-affil-item">
+                  {name}
+                  {!last && (
+                    <span className="eqh-affil-sep" aria-hidden="true">
+                      ·
+                    </span>
+                  )}
                 </span>
-              )}
-            </span>
-          ))}
+                {!last && " "}
+              </Fragment>
+            );
+          })}
         </p>
 
         <div className="eqh-rise d4 eqh-cta">

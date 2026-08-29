@@ -24,6 +24,7 @@ const entries: ExperienceEntry[] = [
   {
     period: "August 2026 to Present",
     company: "Wrestle AI",
+    // Ordered most-recent-first: ongoing roles, then past roles by end date.
     companyUrl: "https://wrestleai.app/",
     logo: "/logos/wrestleai.png",
     coverLogo: true,
@@ -34,15 +35,14 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    period: "2026",
-    company: "10x",
-    companyUrl: "https://www.linkedin.com/company/10x-app",
-    logo: "/logos/10x.png",
-    role: "Growth & Creator Partnerships",
+    period: "January 2026 to Present",
+    company: "MatPad",
+    logo: "/matpad-icon.png",
+    coverLogo: true,
+    role: "Founder",
     bullets: [
-      "Growing Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
-      "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js): 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
-      "Managed 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook, running approval workflow, onboarding calls, and platform compliance via Discord.",
+      "Founded matpad.app, a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
+      "Shipped registration, automated payments, roster management, one-click parent email, digital waivers, coach profile pages, and a public camp directory.",
     ],
   },
   {
@@ -56,18 +56,19 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    period: "2026",
-    company: "MatPad",
-    logo: "/matpad-icon.png",
-    coverLogo: true,
-    role: "Founder",
+    period: "May 2026 to July 2026",
+    company: "10x",
+    companyUrl: "https://www.linkedin.com/company/10x-app",
+    logo: "/logos/10x.png",
+    role: "Growth & Creator Partnerships",
     bullets: [
-      "Founded matpad.app, a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
-      "Shipped registration, automated payments, roster management, one-click parent email, digital waivers, coach profile pages, and a public camp directory.",
+      "Grew Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
+      "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js): 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
+      "Managed 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook, running approval workflow, onboarding calls, and platform compliance via Discord.",
     ],
   },
   {
-    period: "2026",
+    period: "January 2026 to May 2026",
     company: "Park Lane",
     logo: "/logos/parklane.png",
     role: "Investment Banking",
@@ -77,7 +78,7 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    period: "2025",
+    period: "June 2025 to July 2025",
     company: "JPMorganChase & Co.",
     logo: "/logos/jpmorgan.jpg",
     role: "Global Finance & Business Management",
@@ -87,7 +88,7 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    period: "2024",
+    period: "September 2024 to October 2024",
     company: "HP Tech Ventures",
     logo: "/logos/hp.png",
     role: "Venture Capital",
@@ -105,19 +106,13 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
         className="absolute left-0 top-[14px] bottom-1 w-[2px] origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100"
         style={{ background: "var(--accent)" }}
       />
-      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+      <div className="flex items-center gap-2.5">
         <span
           className={`co-mark${entry.coverLogo ? " co-mark--cover" : ""}`}
           aria-hidden="true"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={entry.logo} alt="" decoding="async" loading="eager" fetchPriority="high" />
-        </span>
-        <span
-          className="font-mono text-[11px] tracking-[0.06em] whitespace-nowrap"
-          style={{ color: "var(--accent)" }}
-        >
-          {entry.period}
         </span>
         <span
           className="font-display text-[15px]"
@@ -137,10 +132,16 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           )}
         </span>
       </div>
+      {/* Full month-year ranges are too wide to sit beside the company name at
+          narrow widths, so the date rides the role line and wraps with it. */}
       <p
-        className="font-mono text-[10.5px] md:text-[9.5px] uppercase tracking-[0.14em] mt-1.5 mb-2 md:mt-1.5 md:mb-1.5"
+        className="font-mono text-[10.5px] md:text-[9.5px] uppercase tracking-[0.09em] md:tracking-[0.14em] mt-1.5 mb-2 md:mt-1.5 md:mb-1.5"
         style={{ color: "var(--text-3)" }}
       >
+        <span className="whitespace-nowrap" style={{ color: "var(--accent)" }}>
+          {entry.period}
+        </span>
+        <span aria-hidden="true"> · </span>
         {entry.role}
       </p>
       <ul className="space-y-2 md:space-y-1.5">

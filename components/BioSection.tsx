@@ -60,9 +60,10 @@ export default function BioSection() {
             </p>
             <p>
               I am currently working at the intersection of sports, community,
-              and AI, leading community and creator growth at Wrestle AI while
-              driving growth for Fit AI, an AI-powered fitness app. I am actively
-              seeking opportunities to build at the frontier of AI, whether
+              and AI, leading community and creator growth at Wrestle AI and
+              building MatPad for wrestling camp directors, after driving growth
+              for Fit AI, an AI-powered fitness app. I am actively seeking
+              opportunities to build at the frontier of AI, whether
               founding something, joining a high-conviction early-stage team, or
               shipping products that create meaningful impact.
             </p>
