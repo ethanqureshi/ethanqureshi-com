@@ -34,17 +34,7 @@ const entries: ExperienceEntry[] = [
       "Organizing, tracking, and directing the full network of influencers and creators driving the app's growth.",
     ],
   },
-  {
-    period: "January 2026 to Present",
-    company: "MatPad",
-    logo: "/matpad-icon.png",
-    coverLogo: true,
-    role: "Founder",
-    bullets: [
-      "Founded matpad.app, a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
-      "Shipped registration, automated payments, roster management, one-click parent email, digital waivers, coach profile pages, and a public camp directory.",
-    ],
-  },
+  // MatPad is a product rather than a role; it lives in the Projects section.
   {
     period: "June 2026 to July 2026",
     company: "HdL Companies",
