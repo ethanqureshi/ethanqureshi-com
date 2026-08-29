@@ -9,17 +9,32 @@ const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface ExperienceEntry {
-  year: string;
+  /** Short year for older roles, full range for the recent ones. */
+  period: string;
   company: string;
   companyUrl?: string;
   logo: string;
+  /** Full-bleed app-icon tile (own background, fills the chip edge to edge). */
+  coverLogo?: boolean;
   role: string;
   bullets: string[];
 }
 
 const entries: ExperienceEntry[] = [
   {
-    year: "2026",
+    period: "August 2026 to Present",
+    company: "Wrestle AI",
+    companyUrl: "https://wrestleai.app/",
+    logo: "/logos/wrestleai.png",
+    coverLogo: true,
+    role: "Head of Community",
+    bullets: [
+      "Leading community and creator growth for a grappling sports-tech app with 100k+ downloads and $400K ARR ahead of its major relaunch.",
+      "Organizing, tracking, and directing the full network of influencers and creators driving the app's growth.",
+    ],
+  },
+  {
+    period: "2026",
     company: "10x",
     companyUrl: "https://www.linkedin.com/company/10x-app",
     logo: "/logos/10x.png",
@@ -31,20 +46,20 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    year: "2026",
+    period: "June 2026 to July 2026",
     company: "HdL Companies",
     logo: "/logos/hdl.png",
     role: "Finance & Corporate Development",
     bullets: [
-      "Support finance, accounting, and corporate development at a B2G SaaS firm serving 900+ local-government clients across the U.S.",
-      "Financial analysis, contract review, and strategic initiatives under the CFO.",
-      "Apply AI tools to streamline internal workflows and accelerate financial analysis.",
+      "Built Excel models forecasting revenue, headcount, and operating expenses across six business units at a B2G SaaS and consulting firm serving 900+ local government clients, reporting directly to the CFO on base and stretch budget scenarios.",
+      "Scoped AI integration across month-end close, reconciliations, and internal reporting after analyzing five years of division-level revenue trends, presenting prioritized recommendations to the C-suite.",
     ],
   },
   {
-    year: "2026",
+    period: "2026",
     company: "MatPad",
     logo: "/matpad-icon.png",
+    coverLogo: true,
     role: "Founder",
     bullets: [
       "Founded matpad.app, a full-stack wrestling-camp management platform (Next.js, React, Supabase, Stripe Connect) unifying the fragmented tools camp directors rely on.",
@@ -52,7 +67,7 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    year: "2026",
+    period: "2026",
     company: "Park Lane",
     logo: "/logos/parklane.png",
     role: "Investment Banking",
@@ -62,7 +77,7 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    year: "2025",
+    period: "2025",
     company: "JPMorganChase & Co.",
     logo: "/logos/jpmorgan.jpg",
     role: "Global Finance & Business Management",
@@ -72,7 +87,7 @@ const entries: ExperienceEntry[] = [
     ],
   },
   {
-    year: "2024",
+    period: "2024",
     company: "HP Tech Ventures",
     logo: "/logos/hp.png",
     role: "Venture Capital",
@@ -90,19 +105,19 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
         className="absolute left-0 top-[14px] bottom-1 w-[2px] origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100"
         style={{ background: "var(--accent)" }}
       />
-      <div className="flex items-center gap-2.5">
+      <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
         <span
-          className={`co-mark${entry.logo.includes("matpad") ? " co-mark--cover" : ""}`}
+          className={`co-mark${entry.coverLogo ? " co-mark--cover" : ""}`}
           aria-hidden="true"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={entry.logo} alt="" decoding="async" loading="eager" fetchPriority="high" />
         </span>
         <span
-          className="font-mono text-[11px] tracking-[0.06em]"
+          className="font-mono text-[11px] tracking-[0.06em] whitespace-nowrap"
           style={{ color: "var(--accent)" }}
         >
-          {entry.year}
+          {entry.period}
         </span>
         <span
           className="font-display text-[15px]"

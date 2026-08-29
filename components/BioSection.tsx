@@ -59,9 +59,9 @@ export default function BioSection() {
               investment banking have shaped a genuine passion for building.
             </p>
             <p>
-              I am currently working at the intersection of finance and AI,
-              supporting corporate development at HdL Companies while driving
-              growth for Fit AI, an AI-powered fitness app. I am actively
+              I am currently working at the intersection of sports, community,
+              and AI, leading community and creator growth at Wrestle AI while
+              driving growth for Fit AI, an AI-powered fitness app. I am actively
               seeking opportunities to build at the frontier of AI, whether
               founding something, joining a high-conviction early-stage team, or
               shipping products that create meaningful impact.

@@ -32,8 +32,12 @@ const CSS = `
   font-size:clamp(2rem,4.7vw,3rem);line-height:1.04;letter-spacing:-.03em;margin:0 0 22px;
   text-shadow:0 0 18px rgba(245,240,232,.9),0 1px 0 rgba(245,240,232,.7);}
 .eqh-affil{font-family:var(--font-mono);font-size:12.5px;font-weight:500;letter-spacing:.02em;
-  color:#453e35;line-height:1.85;max-width:33rem;margin:0 0 36px;
+  color:#453e35;line-height:1.85;max-width:40rem;margin:0 0 36px;
   text-shadow:0 0 10px rgba(245,240,232,.95),0 1px 0 rgba(245,240,232,.7);}
+/* Each affiliation is an unbreakable unit that carries its own trailing dot, so
+   a wrap never splits a company name or starts a line with a stray separator. */
+.eqh-affil-item{white-space:nowrap;}
+.eqh-affil-sep{margin:0 .5em;}
 .eqh-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
 .eqh-btn{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;font-size:12px;
   padding:13px 28px;border-radius:2px;cursor:pointer;border:1px solid transparent;
@@ -56,6 +60,15 @@ const CSS = `
   .eqh-rise{opacity:1 !important;transform:none !important;transition:none !important;}
 }
 `;
+
+const AFFILIATIONS = [
+  "Wrestle AI",
+  "10x",
+  "HdL Companies",
+  "HP Tech Ventures",
+  "JPMorganChase",
+  "Park Lane",
+];
 
 export default function HeroSection() {
   const [loaded, setLoaded] = useState(false);
@@ -106,7 +119,16 @@ export default function HeroSection() {
         <h1 className="eqh-rise d2 eqh-name">Ethan Qureshi</h1>
 
         <p className="eqh-rise d3 eqh-affil">
-          10x · HdL Companies · HP Tech Ventures · JPMorganChase · Park Lane
+          {AFFILIATIONS.map((name, i) => (
+            <span key={name} className="eqh-affil-item">
+              {name}
+              {i < AFFILIATIONS.length - 1 && (
+                <span className="eqh-affil-sep" aria-hidden="true">
+                  ·
+                </span>
+              )}
+            </span>
+          ))}
         </p>
 
         <div className="eqh-rise d4 eqh-cta">
