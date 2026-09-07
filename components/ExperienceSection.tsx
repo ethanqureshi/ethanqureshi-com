@@ -26,9 +26,9 @@ const entries: ExperienceEntry[] = [
     company: "Wrestle AI",
     // Ordered most-recent-first: ongoing roles, then past roles by end date.
     companyUrl: "https://wrestleai.app/",
-    logo: "/logos/wrestleai.png",
+    logo: "/logos/wrestleai.webp",
     coverLogo: true,
-    role: "Head of Community",
+    role: "Head of Growth",
     bullets: [
       "Leading community and creator growth for a grappling sports-tech app with 100k+ downloads and $400K ARR ahead of its major relaunch.",
       "Organizing, tracking, and directing the full network of influencers and creators driving the app's growth.",
