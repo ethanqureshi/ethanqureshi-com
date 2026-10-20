@@ -34,6 +34,15 @@ const entries: ExperienceEntry[] = [
       "Direct and track the full network of influencers and creators driving the app's growth.",
     ],
   },
+  {
+    period: "August 2026 to Present",
+    company: "EQ Trading",
+    logo: "/logos/eqtrading.svg",
+    role: "Futures Trader · Self-employed",
+    bullets: [
+      "Trade a prop-funded account in NQ (Nasdaq-100) futures, managing risk and executing a systematic strategy in index futures markets.",
+    ],
+  },
   // MatPad is a product rather than a role; it lives in the Projects section.
   {
     period: "June 2026 to July 2026",
