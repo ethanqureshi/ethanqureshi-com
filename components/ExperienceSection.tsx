@@ -40,7 +40,7 @@ const entries: ExperienceEntry[] = [
     logo: "/logos/eqtrading.svg",
     role: "Futures Trader · Self-employed",
     bullets: [
-      "Trade NQ (Nasdaq-100) futures across funded accounts at five prop firms, with consistent monthly payouts.",
+      "Trading NQ (Nasdaq-100) futures across funded accounts at five prop firms, with consistent monthly payouts.",
       "Built a custom risk dashboard and a backtesting engine that tested 25,000+ strategy variants on 7 years of 1-minute Nasdaq-100 futures data.",
     ],
   },
