@@ -11,7 +11,7 @@ const projects = [
     label: "2026 · AI · Wrestling · SaaS",
     title: "MatPad",
     description:
-      "Registration, payments, rosters, and digital waivers for wrestling camps in one platform.",
+      "Registration, payments, rosters, and digital waivers for wrestling camps, in one platform.",
   },
   {
     href: "https://studysong.org",
@@ -22,47 +22,27 @@ const projects = [
     label: "2026 · AI · Study · Music",
     title: "StudySong",
     description:
-      "Turn any notes into a study song, with AI-written lyrics, AI vocals, and subscription tiers.",
+      "Turns any notes into a study song with AI-written lyrics, AI vocals, and subscription tiers.",
   },
 ];
 
 export default function ProjectsSection() {
   return (
-    <section
-      id="projects"
-      className="px-6 py-12 md:px-12 md:py-16"
-      style={{ borderTop: "1px solid var(--rule)" }}
-    >
-      <div className="deck-panel max-w-[1040px] mx-auto">
-        <Reveal className="mb-8 md:mb-10">
-          <p
-            className="font-mono uppercase tracking-[0.24em] text-[11px] mb-4"
-            style={{ color: "var(--accent)" }}
-          >
-            Projects
-          </p>
-          <h2
-            className="font-display"
-            style={{
-              fontSize: "clamp(1.45rem, 3.2vw, 1.95rem)",
-              fontWeight: 700,
-              lineHeight: 1.08,
-              letterSpacing: "-0.02em",
-              color: "var(--text-1)",
-            }}
-          >
-            What I&apos;ve Built
-          </h2>
+    <section id="projects" className="slide">
+      <div className="deck-panel">
+        <Reveal className="slide-head">
+          <p className="t-label">Projects</p>
+          <h2 className="t-h2">What I&apos;ve Built</h2>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {projects.map((project) => (
             <Reveal key={project.href} initialY={24}>
               <a
                 href={project.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col p-7 md:p-8 transition-transform duration-200 hover:-translate-y-1"
+                className="group flex h-full flex-col p-6 md:p-8 transition-transform duration-200 hover:-translate-y-1"
                 style={{
                   background: "var(--surface)",
                   border: "1px solid var(--border)",
@@ -70,7 +50,7 @@ export default function ProjectsSection() {
                 }}
               >
                 <div
-                  className="mb-6 flex h-14 w-14 items-center justify-center overflow-hidden"
+                  className="mb-5 flex h-12 w-12 items-center justify-center overflow-hidden"
                   style={{ background: project.logoBg, borderRadius: "12px" }}
                 >
                   <Image
@@ -85,35 +65,20 @@ export default function ProjectsSection() {
                   />
                 </div>
 
-                <p
-                  className="font-mono text-[10px] uppercase tracking-[0.14em] mb-3"
-                  style={{ color: "var(--accent)" }}
-                >
+                <p className="t-meta mb-2" style={{ color: "var(--accent)" }}>
                   {project.label}
                 </p>
 
-                <h3
-                  className="font-display mb-3"
-                  style={{
-                    fontSize: "clamp(1.15rem, 2.4vw, 1.4rem)",
-                    fontWeight: 700,
-                    lineHeight: 1.12,
-                    letterSpacing: "-0.02em",
-                    color: "var(--text-1)",
-                  }}
-                >
+                <h3 className="t-h3 mb-2" style={{ fontSize: "20px" }}>
                   {project.title}
                 </h3>
 
-                <p
-                  className="font-body text-[13px] md:text-[14px] leading-[1.65] mb-6 flex-1"
-                  style={{ color: "var(--text-2)" }}
-                >
+                <p className="t-small mb-6 flex-1" style={{ fontSize: "14px" }}>
                   {project.description}
                 </p>
 
                 <span
-                  className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors duration-200"
+                  className="t-meta inline-flex items-center gap-2 transition-colors duration-200"
                   style={{ color: "var(--accent)" }}
                 >
                   View Project

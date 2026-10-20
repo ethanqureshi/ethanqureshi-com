@@ -40,7 +40,7 @@ export default function ContactSection() {
   };
 
   const field =
-    "w-full font-body text-[13px] px-4 py-3 bg-transparent resize-none outline-none transition-colors duration-200";
+    "w-full font-body text-[14px] px-4 py-3 bg-transparent resize-none outline-none transition-colors duration-200";
   const fieldStyle = {
     border: "1px solid var(--border)",
     borderRadius: "3px",
@@ -48,34 +48,14 @@ export default function ContactSection() {
   } as const;
 
   return (
-    <section
-      id="contact"
-      className="px-6 py-12 md:px-12 md:py-16"
-      style={{ borderTop: "1px solid var(--rule)" }}
-    >
-      <div className="deck-panel grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-10 md:gap-14 max-w-[1040px] mx-auto">
+    <section id="contact" className="slide">
+      <div className="deck-panel grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-14">
         <Reveal>
-          <p
-            className="font-mono uppercase tracking-[0.24em] text-[11px] mb-4"
-            style={{ color: "var(--accent)" }}
-          >
-            Contact
-          </p>
-          <h2
-            className="font-display"
-            style={{
-              fontSize: "clamp(1.45rem, 3.2vw, 1.95rem)",
-              fontWeight: 700,
-              lineHeight: 1.08,
-              letterSpacing: "-0.02em",
-              color: "var(--text-1)",
-            }}
-          >
-            Let&apos;s Talk
-          </h2>
+          <p className="t-label">Contact</p>
+          <h2 className="t-h2">Let&apos;s Talk</h2>
           <a
             href="mailto:ethanqureshi7@gmail.com"
-            className="block mt-6 font-body text-[13px] transition-colors duration-200"
+            className="t-small block mt-6 transition-colors duration-200 hover:text-[var(--accent-deep)]"
             style={{ color: "var(--accent)" }}
           >
             ethanqureshi7@gmail.com
@@ -111,13 +91,12 @@ export default function ContactSection() {
         <Reveal delay={100}>
           {status === "sent" ? (
             <p
-              className="font-body text-[15px] leading-[1.75]"
-              style={{ color: "var(--text-2)" }}
+              className="t-body"
             >
               Message sent. I&apos;ll be in touch soon.
             </p>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3">
               {/* Honeypot: hidden from real users; bots that fill it are rejected. */}
               <input
                 type="text"
@@ -166,10 +145,7 @@ export default function ContactSection() {
                 style={fieldStyle}
               />
               {status === "error" && (
-                <p
-                  className="font-body text-[12px]"
-                  style={{ color: "var(--accent)" }}
-                >
+                <p className="t-small" style={{ color: "var(--accent)" }}>
                   {errorMsg || "Something went wrong. Please try again."}
                 </p>
               )}

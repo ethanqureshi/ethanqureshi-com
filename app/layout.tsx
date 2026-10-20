@@ -21,7 +21,6 @@ export const metadata: Metadata = {
     "Cornell wrestler, founder of MatPad, building at the intersection of AI and finance.",
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
       { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },

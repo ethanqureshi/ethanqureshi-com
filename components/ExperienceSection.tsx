@@ -9,7 +9,7 @@ const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface ExperienceEntry {
-  /** Short year for older roles, full range for the recent ones. */
+  /** Month-year range, e.g. "June 2025 to July 2025". */
   period: string;
   company: string;
   companyUrl?: string;
@@ -21,17 +21,17 @@ interface ExperienceEntry {
 }
 
 const entries: ExperienceEntry[] = [
+  // Ordered most-recent-first: ongoing roles, then past roles by end date.
   {
     period: "August 2026 to Present",
     company: "Wrestle AI",
-    // Ordered most-recent-first: ongoing roles, then past roles by end date.
     companyUrl: "https://wrestleai.app/",
     logo: "/logos/wrestleai.webp",
     coverLogo: true,
     role: "Head of Growth",
     bullets: [
-      "Leading community and creator growth for a grappling sports-tech app with 100k+ downloads and $400K ARR ahead of its major relaunch.",
-      "Organizing, tracking, and directing the full network of influencers and creators driving the app's growth.",
+      "Lead community and creator growth for a grappling sports-tech app with 100k+ downloads and $400K ARR, ahead of its major relaunch.",
+      "Direct and track the full network of influencers and creators driving the app's growth.",
     ],
   },
   // MatPad is a product rather than a role; it lives in the Projects section.
@@ -41,8 +41,8 @@ const entries: ExperienceEntry[] = [
     logo: "/logos/hdl.png",
     role: "Finance & Corporate Development",
     bullets: [
-      "Built Excel models forecasting revenue, headcount, and operating expenses across six business units at a B2G SaaS and consulting firm serving 900+ local government clients, reporting directly to the CFO on base and stretch budget scenarios.",
-      "Scoped AI integration across month-end close, reconciliations, and internal reporting after analyzing five years of division-level revenue trends, presenting prioritized recommendations to the C-suite.",
+      "Built Excel models forecasting revenue, headcount, and operating expenses across six business units at a B2G SaaS and consulting firm serving 900+ local governments; reported base and stretch budget scenarios directly to the CFO.",
+      "Analyzed five years of division-level revenue to scope AI integration across month-end close, reconciliations, and internal reporting; presented prioritized recommendations to the C-suite.",
     ],
   },
   {
@@ -53,8 +53,8 @@ const entries: ExperienceEntry[] = [
     role: "Growth & Creator Partnerships",
     bullets: [
       "Grew Fit AI (fitai.so), an AI-powered workout planner on the iOS App Store.",
-      "Built a fully automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js): 30+ branded slideshows brief-to-asset. Viral-format systems from competitor research and founder feedback; AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
-      "Managed 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook, running approval workflow, onboarding calls, and platform compliance via Discord.",
+      "Built an automated Instagram carousel pipeline (Claude Code, Higgsfield CLI, Node.js) producing 30+ branded slideshows, brief to asset, in viral formats drawn from competitor research and founder feedback; produced AI UGC transformation videos via Higgsfield Seedance 2.0 with custom-trained character models.",
+      "Managed 20+ contracted creators across TikTok, Instagram, YouTube, and Facebook, owning approvals, onboarding calls, and platform compliance via Discord.",
     ],
   },
   {
@@ -64,7 +64,7 @@ const entries: ExperienceEntry[] = [
     role: "Investment Banking",
     bullets: [
       "Company, industry, and financial analysis across sports franchises, leagues, and adjacent businesses; supported live M&A engagements at a sports-focused boutique bank.",
-      "Built league/team valuation and revenue analyses (emerging-league comps, expansion-fee benchmarks, bottom-up assumptions); prepped investor-facing materials for senior bankers.",
+      "Built league and team valuation and revenue analyses (emerging-league comps, expansion-fee benchmarks, bottom-up assumptions); prepared investor-facing materials for senior bankers.",
     ],
   },
   {
@@ -73,8 +73,8 @@ const entries: ExperienceEntry[] = [
     logo: "/logos/jpmorgan.jpg",
     role: "Global Finance & Business Management",
     bullets: [
-      "1 of 332 fellows from 18,000+ applicants for the JPMC Summer Fellowship; shadowed Corporate Controllers across regulatory reporting, strategy, and financial analysis in Global Finance.",
-      "Pitched a plan to grow Chase Wealth Plan engagement among younger users: AI reminders, gamified financial-literacy modules, and social community integration.",
+      "1 of 332 JPMC Summer Fellows selected from 18,000+ applicants; shadowed Corporate Controllers across regulatory reporting, strategy, and financial analysis in Global Finance.",
+      "Pitched a plan to grow Chase Wealth Plan engagement among younger users through AI reminders, gamified financial-literacy modules, and social community integration.",
     ],
   },
   {
@@ -83,7 +83,7 @@ const entries: ExperienceEntry[] = [
     logo: "/logos/hp.png",
     role: "Venture Capital",
     bullets: [
-      "Market analysis across AI-enabled productivity tools, a sector projected at $632B by 2028 (29% CAGR); flagged 3+ growth verticals and key competitive risks.",
+      "Analyzed AI-enabled productivity tools, a sector projected at $632B by 2028 (29% CAGR); flagged 3+ growth verticals and key competitive risks.",
       "Sourced and evaluated 30+ early-stage startups ($100M+ funding, $1B+ valuations); wrote 5 investment summaries on go-to-market fit, positioning, and partnerships.",
     ],
   },
@@ -91,12 +91,8 @@ const entries: ExperienceEntry[] = [
 
 function EntryRow({ entry }: { entry: ExperienceEntry }) {
   return (
-    <div className="exp-entry group relative pl-4 md:pl-5">
-      <span
-        className="absolute left-0 top-[14px] bottom-1 w-[2px] origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100"
-        style={{ background: "var(--accent)" }}
-      />
-      <div className="flex items-center gap-2.5">
+    <div className="exp-entry">
+      <div className="exp-head">
         <span
           className={`co-mark${entry.coverLogo ? " co-mark--cover" : ""}`}
           aria-hidden="true"
@@ -104,10 +100,7 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={entry.logo} alt="" decoding="async" loading="eager" fetchPriority="high" />
         </span>
-        <span
-          className="font-display text-[15px]"
-          style={{ fontWeight: 700, letterSpacing: "-0.01em", color: "var(--text-1)" }}
-        >
+        <h3 className="t-h3">
           {entry.companyUrl ? (
             <a
               href={entry.companyUrl}
@@ -120,31 +113,15 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
           ) : (
             entry.company
           )}
-        </span>
+        </h3>
       </div>
-      {/* Full month-year ranges are too wide to sit beside the company name at
-          narrow widths, so the date rides the role line and wraps with it. */}
-      <p
-        className="font-mono text-[10.5px] md:text-[9.5px] uppercase tracking-[0.09em] md:tracking-[0.14em] mt-1.5 mb-2 md:mt-1.5 md:mb-1.5"
-        style={{ color: "var(--text-3)" }}
-      >
-        <span className="whitespace-nowrap" style={{ color: "var(--accent)" }}>
-          {entry.period}
-        </span>
-        <span aria-hidden="true"> · </span>
-        {entry.role}
+      <p className="exp-meta t-meta">
+        <span className="exp-period">{entry.period}</span>
+        <span className="exp-role">{entry.role}</span>
       </p>
-      <ul className="space-y-2 md:space-y-1.5">
+      <ul className="exp-bullets">
         {entry.bullets.map((bullet, i) => (
-          <li
-            key={i}
-            className="font-body text-[13.5px] md:text-[12px] leading-[1.7] md:leading-[1.5] flex gap-2"
-            style={{ color: "var(--text-2)" }}
-          >
-            <span
-              className="mt-[0.55em] shrink-0 w-[3px] h-[3px] rounded-full"
-              style={{ background: "var(--accent)" }}
-            />
+          <li key={i} className="t-small">
             {bullet}
           </li>
         ))}
@@ -156,34 +133,64 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
 export default function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
   // Guarantee the whole section is visible with no internal scroll: on desktop,
-  // uniformly scale the panel down whenever its natural height would exceed the
-  // viewport, and collapse the reclaimed layout height with a negative margin so
-  // the slide never becomes scrollable (the first wheel then pages to the next
-  // section). On mobile the panel keeps its natural size and scrolls normally.
+  // when the panel's natural height would exceed the viewport, scale the
+  // panel's *content* down and widen it by the same factor, so the panel keeps
+  // the same outer edges as every other slide and the narrower type gains line
+  // length (fewer lines). A negative margin collapses the reclaimed height so
+  // the slide never becomes scrollable. On mobile it keeps its natural size and
+  // scrolls normally.
   useIsoLayoutEffect(() => {
     const section = sectionRef.current;
     const panel = panelRef.current;
-    if (!section || !panel) return;
+    const inner = innerRef.current;
+    if (!section || !panel || !inner) return;
 
     const fit = () => {
-      panel.style.transformOrigin = "top center";
-      panel.style.transform = "none";
-      panel.style.marginBottom = "";
+      inner.style.transform = "none";
+      inner.style.width = "";
+      inner.style.marginBottom = "";
 
       if (window.innerWidth < 768) return;
 
-      const need = panel.offsetHeight;
       const cs = getComputedStyle(section);
-      const padTop = parseFloat(cs.paddingTop) || 0;
-      const padBottom = parseFloat(cs.paddingBottom) || 0;
-      const avail = window.innerHeight - padTop - padBottom - 8;
-      const scale = Math.min(1, avail / need);
+      const ps = getComputedStyle(panel);
+      const avail =
+        window.innerHeight -
+        (parseFloat(cs.paddingTop) || 0) -
+        (parseFloat(cs.paddingBottom) || 0) -
+        (parseFloat(ps.paddingTop) || 0) -
+        (parseFloat(ps.paddingBottom) || 0) -
+        8;
+
+      // Widening reflows the text shorter, so the scaled height is not linear
+      // in the scale: bisect for the largest scale whose content still fits.
+      const fits = (sc: number) => {
+        inner.style.width = sc < 1 ? `${100 / sc}%` : "";
+        return inner.offsetHeight * sc <= avail;
+      };
+      let scale = 1;
+      if (!fits(1)) {
+        let lo = 0.5;
+        let hi = 1;
+        for (let i = 0; i < 8; i++) {
+          const mid = (lo + hi) / 2;
+          if (fits(mid)) lo = mid;
+          else hi = mid;
+        }
+        scale = lo;
+        fits(scale);
+      }
 
       if (scale < 1) {
-        panel.style.transform = `scale(${scale})`;
-        panel.style.marginBottom = `-${Math.ceil(need - need * scale)}px`;
+        const need = inner.offsetHeight;
+        inner.style.transformOrigin = "top left";
+        inner.style.transform = `scale(${scale})`;
+        inner.style.marginBottom = `-${Math.ceil(need - need * scale)}px`;
+      } else {
+        inner.style.width = "";
       }
     };
 
@@ -204,33 +211,12 @@ export default function ExperienceSection() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="experience"
-      className="px-6 pt-20 pb-10 md:px-12 md:pt-16 md:pb-10"
-      style={{ borderTop: "1px solid var(--rule)" }}
-    >
-      <div className="max-w-[1040px] w-full mx-auto">
-        <div ref={panelRef} className="deck-panel w-full">
-          <Reveal className="mb-5 md:mb-4">
-            <p
-              className="font-mono uppercase tracking-[0.24em] text-[11px] mb-2"
-              style={{ color: "var(--accent)" }}
-            >
-              Experience
-            </p>
-            <h2
-              className="font-display"
-              style={{
-                fontSize: "clamp(1.35rem, 2.6vw, 1.65rem)",
-                fontWeight: 700,
-                lineHeight: 1.08,
-                letterSpacing: "-0.02em",
-                color: "var(--text-1)",
-              }}
-            >
-              The Work
-            </h2>
+    <section ref={sectionRef} id="experience" className="slide">
+      <div ref={panelRef} className="deck-panel">
+        <div ref={innerRef}>
+          <Reveal className="slide-head">
+            <p className="t-label">Experience</p>
+            <h2 className="t-h2">The Work</h2>
           </Reveal>
 
           <div className="exp-cols">

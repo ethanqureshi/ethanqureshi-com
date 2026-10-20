@@ -79,40 +79,206 @@ body {
   -webkit-backdrop-filter: blur(7px);
   border: 1px solid rgba(184, 86, 63, 0.16);
   border-radius: 16px;
-  padding: clamp(20px, 2.4vw, 42px);
+  padding: 44px 48px;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
   box-shadow: 0 34px 90px -46px rgba(60, 40, 28, 0.42);
+}
+
+/* ── Type & spacing system ───────────────────────────────────────────────
+   One hierarchy for every slide: section label, heading, entry title, body,
+   meta. Each slide is a `.slide` section holding one `.deck-panel`; the panel
+   header (label + heading) is a `.slide-head`. Sizes step down cleanly on
+   phones; nothing is set per slide. */
+.slide {
+  padding: 84px 48px 72px;
+}
+.slide-head {
+  margin-bottom: 32px;
+}
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 14px;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--text-1);
+  margin: 0;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+  margin: 0;
+}
+.t-body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: -0.003em;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+.t-small {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+.t-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+@media (max-width: 767px) {
+  .slide {
+    padding: 84px 16px 72px;
+  }
+  .slide-head {
+    margin-bottom: 28px;
+  }
+  .t-label {
+    font-size: 10.5px;
+    margin-bottom: 12px;
+  }
+  .t-h2 {
+    font-size: 26px;
+  }
+  .t-body {
+    font-size: 15px;
+    line-height: 1.62;
+  }
+}
+
+/* Bio: education sits under the heading in the narrow left column. */
+.edu {
+  margin-top: 36px;
+}
+.edu-item + .edu-item {
+  margin-top: 22px;
+}
+.edu-item .t-meta {
+  color: var(--accent);
+  margin: 8px 0 8px;
+}
+.edu-item .t-small + .t-small {
+  margin-top: 4px;
+}
+.edu-key {
+  color: var(--text-1);
+  font-weight: 500;
+}
+@media (max-width: 767px) {
+  .edu {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
 }
 
 /* Experience uses balanced columns instead of a row-aligned grid, so a tall
    role (10x) no longer forces whitespace beside a short one. On mobile it is a
    single roomy column that scrolls internally (legibility over no-scroll); the
    desktop two-column single-screen layout is unchanged. */
-.exp-cols {
-  column-gap: 2.75rem;
-}
 .exp-entry {
   break-inside: avoid;
   border-top: 1px solid var(--border);
-  padding-top: 18px;
-  margin-bottom: 22px;
+  padding-top: 20px;
+  margin-bottom: 24px;
+}
+.exp-entry:last-child {
+  margin-bottom: 0;
+}
+.exp-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Date and role are separate units: one line on desktop, stacked on phones
+   (never split mid-phrase). */
+.exp-meta {
+  display: flex;
+  column-gap: 10px;
+  row-gap: 2px;
+  margin: 6px 0 8px;
+}
+.exp-period {
+  color: var(--accent);
+  white-space: nowrap;
+}
+.exp-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.exp-bullets li {
+  position: relative;
+  padding-left: 14px;
+}
+.exp-bullets li + li {
+  margin-top: 6px;
+}
+.exp-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 4px;
+  height: 1px;
+  background: var(--accent);
 }
 @media (min-width: 768px) {
   .exp-cols {
     column-count: 2;
-    column-gap: 3.25rem;
+    column-gap: 48px;
   }
   .exp-entry {
-    padding-top: 12px;
-    margin-bottom: 13px;
+    padding-top: 16px;
+    margin-bottom: 18px;
   }
-  /* Experience is vertically centered on desktop and still fits one screen: it
-     inherits the deck's `safe center`, so it sits mid-screen on tall monitors
-     and falls back to top-alignment (with internal scroll) only on very short
-     windows — the header never hides behind the nav. Roomier panel padding and
-     entry spacing ease the density that made it feel cramped. */
-  #experience .deck-panel {
-    padding-top: 26px;
-    padding-bottom: 26px;
+  .exp-entry:last-child {
+    margin-bottom: 0;
+  }
+  .exp-role::before {
+    content: "·";
+    margin-right: 10px;
+    color: var(--text-3);
+  }
+  .exp-bullets .t-small {
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .exp-bullets li + li {
+    margin-top: 4px;
+  }
+}
+@media (max-width: 767px) {
+  .exp-meta {
+    flex-direction: column;
+    margin: 8px 0 10px;
+  }
+  .deck-panel {
+    padding: 28px 24px;
+    border-radius: 14px;
   }
 }
 
@@ -145,6 +311,10 @@ body {
 .co-mark--cover img {
   object-fit: cover;
   padding: 0;
+}
+/* Round university seals sit inside the chip with a hairline of room. */
+.co-mark--seal img {
+  padding: 1px;
 }
 @media (max-width: 640px) {
   /* Slightly smaller on phones, but always visible. */
@@ -304,7 +474,6 @@ body {
   z-index: 400;
   pointer-events: none;
 }
-.deck-hint,
 .deck-copy {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -312,21 +481,9 @@ body {
   text-transform: uppercase;
   color: var(--text-3);
 }
-.deck-hint {
-  animation: hintPulse 2.4s ease-in-out infinite;
-}
-@keyframes hintPulse {
-  0%,
-  100% {
-    opacity: 0.45;
-  }
-  50% {
-    opacity: 0.9;
-  }
-}
 
-/* Paging affordances: nudging chevrons that also page on click. Up appears
-   except on the first page, down except on the last, both on the middle pages. */
+/* Paging affordance: a nudging chevron that pages forward on click, shown on
+   every page but the last. */
 .deck-nav {
   position: fixed;
   left: 50%;
@@ -359,10 +516,6 @@ body {
   bottom: 20px;
   animation: nudgeDown 1.9s ease-in-out infinite;
 }
-.deck-nav-up {
-  top: 76px;
-  animation: nudgeUp 1.9s ease-in-out infinite;
-}
 @keyframes nudgeDown {
   0%,
   100% {
@@ -370,15 +523,6 @@ body {
   }
   50% {
     transform: translate(-50%, 5px);
-  }
-}
-@keyframes nudgeUp {
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, -5px);
   }
 }
 @media (max-width: 640px) {
@@ -389,24 +533,14 @@ body {
   .deck-nav-down {
     bottom: 16px;
   }
-  .deck-nav-up {
-    top: 64px;
-  }
 }
 @media (max-width: 640px) {
   .deck-dots {
     display: none;
   }
+  /* The down chevron is the only bottom-edge element on phones. */
   .deck-foot {
-    padding: 10px 14px;
-  }
-  .deck-hint {
     display: none;
-  }
-  /* Extra top/bottom room so dense mobile slides clear the nav and footer. */
-  .slide-scroll > section {
-    padding-top: 76px;
-    padding-bottom: 64px;
   }
 }
 
@@ -1054,7 +1188,6 @@ body {
     opacity: 1;
     transform: none;
   }
-  .deck-hint,
   .deck-nav {
     animation: none;
   }
