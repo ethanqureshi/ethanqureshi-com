@@ -24,6 +24,17 @@ const projects = [
     description:
       "Turns any notes into a study song with AI-written lyrics, AI vocals, and subscription tiers.",
   },
+  {
+    href: "https://travel-map-swart-five.vercel.app/",
+    logo: "/travel-icon.png",
+    logoAlt: "Travel Tracker",
+    logoBg: "#0e1116",
+    imgSize: 56,
+    label: "2026 · Personal · Web · Dataviz",
+    title: "Travel Tracker",
+    description:
+      "A 3D globe of every country and place I've visited, with stats on continents, US states, and distance from home.",
+  },
 ];
 
 export default function ProjectsSection() {
@@ -35,14 +46,14 @@ export default function ProjectsSection() {
           <h2 className="t-h2">What I&apos;ve Built</h2>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5">
           {projects.map((project) => (
             <Reveal key={project.href} initialY={24}>
               <a
                 href={project.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col p-6 md:p-8 transition-transform duration-200 hover:-translate-y-1"
+                className="group flex h-full flex-col p-6 md:p-7 transition-transform duration-200 hover:-translate-y-1"
                 style={{
                   background: "var(--surface)",
                   border: "1px solid var(--border)",
