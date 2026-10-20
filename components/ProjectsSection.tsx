@@ -26,7 +26,7 @@ const projects = [
   },
   {
     href: "https://travel-map-swart-five.vercel.app/",
-    logo: "/travel-icon.png",
+    logo: "/travel-globe.png",
     logoAlt: "Travel Tracker",
     logoBg: "#0e1116",
     imgSize: 56,
