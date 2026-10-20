@@ -5,6 +5,7 @@ const education = [
     school: "Cornell University",
     logo: "/logos/cornell.png",
     meta: "The Dyson School · B.S.",
+    location: "Ithaca, NY",
     lines: [
       ["Degree", "Applied Economics & Management"],
       ["Concentrations", "Finance, Business Analytics"],
@@ -15,6 +16,7 @@ const education = [
     school: "The University of Edinburgh",
     logo: "/logos/edinburgh.png",
     meta: "Visiting Undergraduate",
+    location: "Edinburgh, Scotland",
     lines: [
       ["Coursework", "International Business, Behavioral Finance, Sociology"],
     ],
@@ -41,6 +43,7 @@ export default function BioSection() {
                   <h3 className="t-h3">{e.school}</h3>
                 </div>
                 <p className="t-meta">{e.meta}</p>
+                <p className="t-meta edu-loc">{e.location}</p>
                 {e.lines.map(([k, v]) => (
                   <p key={k} className="t-small">
                     <span className="edu-key">{k}:</span> {v}

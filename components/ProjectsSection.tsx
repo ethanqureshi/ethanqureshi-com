@@ -3,6 +3,17 @@ import Reveal from "./Reveal";
 
 const projects = [
   {
+    href: "https://travel-map-swart-five.vercel.app/",
+    logo: "/travel-icon.png",
+    logoAlt: "Travel Tracker",
+    logoBg: "#0e1116",
+    imgSize: 56,
+    label: "2026 · Personal · Web · Dataviz",
+    title: "Travel Tracker",
+    description:
+      "A 3D globe of every country and place I've visited, with stats on continents, US states, and distance from home.",
+  },
+  {
     href: "https://matpad.app",
     logo: "/matpad-icon.png",
     logoAlt: "MatPad",
@@ -23,17 +34,6 @@ const projects = [
     title: "StudySong",
     description:
       "Turns any notes into a study song with AI-written lyrics, AI vocals, and subscription tiers.",
-  },
-  {
-    href: "https://travel-map-swart-five.vercel.app/",
-    logo: "/travel-icon.png",
-    logoAlt: "Travel Tracker",
-    logoBg: "#0e1116",
-    imgSize: 56,
-    label: "2026 · Personal · Web · Dataviz",
-    title: "Travel Tracker",
-    description:
-      "A 3D globe of every country and place I've visited, with stats on continents, US states, and distance from home.",
   },
 ];
 
