@@ -30,8 +30,8 @@ const entries: ExperienceEntry[] = [
     coverLogo: true,
     role: "Head of Growth",
     bullets: [
-      "Lead community and creator growth for a grappling sports-tech app with 100k+ downloads and $400K ARR, ahead of its major relaunch.",
-      "Direct and track the full network of influencers and creators driving the app's growth.",
+      "Leading community and creator growth for a grappling sports-tech app with 100k+ downloads and $400K ARR, ahead of its major relaunch.",
+      "Directing and tracking the full network of influencers and creators driving the app's growth.",
     ],
   },
   {
