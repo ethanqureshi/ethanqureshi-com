@@ -79,11 +79,13 @@ export default function BioSection() {
               investment banking turned into a passion for building.
             </p>
             <p>
-              Today I lead community and creator growth at Wrestle AI, at the
-              intersection of sports, community, and AI. Before that, I drove
-              growth for Fit AI, an AI-powered fitness app, and built MatPad, a
-              camp management platform for wrestling directors. Next, I want to
-              build at the frontier of AI: founding a company, joining a
+              Today, I&apos;m Head of Growth at Wrestle AI, leading community and
+              creator growth for a leading sports-tech innovation mobile app.
+              I&apos;m also an independent futures trader, running prop-funded
+              capital in the NQ markets. Before Wrestle AI, I drove growth for
+              Fit AI, an AI-powered fitness app, and built MatPad, a camp
+              management platform for wrestling directors. Next, I want to build
+              at the frontier of AI: founding a company, joining a
               high-conviction early-stage team, or shipping products with real
               impact.
             </p>
