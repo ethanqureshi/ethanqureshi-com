@@ -16,8 +16,6 @@ interface ExperienceEntry {
   logo: string;
   /** Full-bleed app-icon tile (own background, fills the chip edge to edge). */
   coverLogo?: boolean;
-  /** Wide wordmark style logo: trims chip padding so it keeps its visual weight. */
-  wideLogo?: boolean;
   role: string;
   bullets: string[];
 }
@@ -40,7 +38,7 @@ const entries: ExperienceEntry[] = [
     period: "August 2026 to Present",
     company: "EQ Trading",
     logo: "/logos/eqtrading.svg",
-    wideLogo: true,
+    coverLogo: true,
     role: "Futures Trader · Self-employed",
     bullets: [
       "Trading NQ (Nasdaq-100) futures across funded accounts at five prop firms, with consistent monthly payouts.",
@@ -107,7 +105,7 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
     <div className="exp-entry">
       <div className="exp-head">
         <span
-          className={`co-mark${entry.coverLogo ? " co-mark--cover" : ""}${entry.wideLogo ? " co-mark--wide" : ""}`}
+          className={`co-mark${entry.coverLogo ? " co-mark--cover" : ""}`}
           aria-hidden="true"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

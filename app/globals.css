@@ -317,10 +317,6 @@ body {
   object-fit: cover;
   padding: 0;
 }
-/* Wide monograms (about 2:1) need almost no inset to match the square marks. */
-.co-mark--wide img {
-  padding: 1px;
-}
 /* Round university seals sit inside the chip with a hairline of room. */
 .co-mark--seal img {
   padding: 1px;
