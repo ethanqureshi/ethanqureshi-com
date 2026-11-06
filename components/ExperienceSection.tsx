@@ -41,7 +41,7 @@ const entries: ExperienceEntry[] = [
     coverLogo: true,
     role: "Futures Trader · Self-employed",
     bullets: [
-      "Trading NQ (Nasdaq-100) futures across funded accounts at five prop firms, with consistent monthly payouts.",
+      "5 figures/mo in revenue trading NQ (Nasdaq-100) futures across prop firms",
       "Built a custom risk dashboard and a backtesting engine that tested 25,000+ strategy variants on 7 years of 1-minute Nasdaq-100 futures data.",
     ],
   },
