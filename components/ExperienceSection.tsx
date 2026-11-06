@@ -135,23 +135,53 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
   );
 }
 
-export default function ExperienceSection() {
-  // On desktop the panel scrolls internally when the content is taller than
-  // the screen (see #experience .deck-panel); on mobile the slide scrolls.
+// Experience spans two deck slides so the full-size type fits one screen on
+// each without internal scrolling: the 2026 roles first, then earlier roles.
+const RECENT_COUNT = 4;
+
+function ExperienceSlide({
+  id,
+  heading,
+  list,
+}: {
+  id: string;
+  heading: string;
+  list: ExperienceEntry[];
+}) {
   return (
-    <section id="experience" className="slide">
-      <div className="deck-panel">
+    <section id={id} className="slide exp-slide">
+      <div className="deck-panel exp-panel">
         <Reveal className="slide-head">
           <p className="t-label">Experience</p>
-          <h2 className="t-h2">The Work</h2>
+          <h2 className="t-h2">{heading}</h2>
         </Reveal>
 
         <div className="exp-cols">
-          {entries.map((entry) => (
+          {list.map((entry) => (
             <EntryRow key={entry.company} entry={entry} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+export default function ExperienceSection() {
+  return (
+    <ExperienceSlide
+      id="experience"
+      heading="The Work"
+      list={entries.slice(0, RECENT_COUNT)}
+    />
+  );
+}
+
+export function ExperienceSectionEarlier() {
+  return (
+    <ExperienceSlide
+      id="experience-2"
+      heading="Earlier Work"
+      list={entries.slice(RECENT_COUNT)}
+    />
   );
 }

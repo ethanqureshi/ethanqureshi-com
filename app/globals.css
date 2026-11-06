@@ -202,8 +202,7 @@ body {
 
 /* Experience uses balanced columns instead of a row-aligned grid, so a tall
    role (10x) no longer forces whitespace beside a short one. On mobile it is a
-   single roomy column that scrolls internally (legibility over no-scroll); the
-   desktop two-column single-screen layout is unchanged. */
+   single roomy column that scrolls internally (legibility over no-scroll). */
 .exp-entry {
   break-inside: avoid;
   border-top: 1px solid var(--border);
@@ -268,15 +267,54 @@ body {
     margin-right: 10px;
     color: var(--text-3);
   }
-  /* Larger type no longer fits one screen: the panel keeps its frame inside
-     the slide's padding and its content scrolls internally (the deck pages
-     only once the panel reaches its top or bottom edge). */
-  #experience .deck-panel {
-    max-height: calc(100dvh - 156px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
-    scrollbar-color: var(--rule) transparent;
+}
+/* Wide screens: Experience (split over two slides) takes a wider panel and
+   three columns so the full-size type fits one screen with no scrolling.
+   Date and role stack so neither wraps mid-phrase in the narrower columns. */
+@media (min-width: 1100px) {
+  .exp-panel {
+    max-width: 1240px;
+  }
+  .exp-panel .exp-cols {
+    column-count: 3;
+  }
+  .exp-panel .exp-meta {
+    flex-direction: column;
+  }
+  .exp-panel .exp-role::before {
+    content: none;
+  }
+}
+/* Short laptop screens: trim the frame around the content (never the type
+   or its line-height) so each Experience slide still fits one screen. */
+@media (min-width: 768px) and (max-height: 860px) {
+  .exp-slide {
+    padding-top: 74px;
+    padding-bottom: 60px;
+  }
+  .exp-panel {
+    padding: 30px 40px;
+  }
+  .exp-panel .slide-head {
+    margin-bottom: 20px;
+  }
+}
+@media (min-width: 768px) and (max-height: 760px) {
+  .exp-slide {
+    padding-top: 70px;
+    padding-bottom: 52px;
+  }
+  .exp-panel {
+    padding: 24px 36px;
+  }
+}
+@media (min-width: 1100px) {
+  .exp-slide {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .exp-panel .exp-cols {
+    column-gap: 32px;
   }
 }
 @media (max-width: 767px) {
