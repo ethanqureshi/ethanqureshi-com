@@ -31,8 +31,8 @@ const CSS = `
 .eqh-name{font-family:var(--font-display);font-weight:700;color:#453e35;
   font-size:clamp(2rem,4.7vw,3rem);line-height:1.04;letter-spacing:-.03em;margin:0 0 22px;
   text-shadow:0 0 18px rgba(245,240,232,.9),0 1px 0 rgba(245,240,232,.7);}
-.eqh-affil{font-family:var(--font-mono);font-size:12.5px;font-weight:500;letter-spacing:.02em;
-  color:#453e35;line-height:1.85;max-width:40rem;margin:0 0 36px;
+.eqh-affil{font-family:var(--font-mono);font-size:14px;font-weight:500;letter-spacing:.02em;
+  color:#453e35;line-height:1.85;max-width:48rem;margin:0 0 36px;
   text-shadow:0 0 10px rgba(245,240,232,.95),0 1px 0 rgba(245,240,232,.7);}
 /* Each affiliation is an unbreakable unit that carries its own trailing dot, so
    a wrap never splits a company name or starts a line with a stray separator.
@@ -55,7 +55,7 @@ const CSS = `
   .eqh-portrait{width:168px;height:210px;}
   .eqh-eyebrow{font-size:10px;letter-spacing:.16em;margin:0 0 16px;}
   .eqh-name{margin:0 0 16px;}
-  .eqh-affil{font-size:11px;line-height:1.75;max-width:22rem;margin:0 0 26px;}
+  .eqh-affil{font-size:12.5px;line-height:1.8;max-width:22rem;margin:0 0 26px;}
   .eqh-affil-sep{margin-left:.4em;}
   .eqh-cta{gap:10px;}
   .eqh-btn{padding:12px 22px;font-size:11.5px;}

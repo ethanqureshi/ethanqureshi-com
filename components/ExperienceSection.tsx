@@ -1,12 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
 import Reveal from "./Reveal";
-
-// useLayoutEffect on the client, useEffect on the server (this slide only ever
-// mounts client-side, but guard the SSR warning anyway).
-const useIsoLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface ExperienceEntry {
   /** Month-year range, e.g. "June 2025 to July 2025". */
@@ -142,99 +136,20 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
 }
 
 export default function ExperienceSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
-
-  // Guarantee the whole section is visible with no internal scroll: on desktop,
-  // when the panel's natural height would exceed the viewport, scale the
-  // panel's *content* down and widen it by the same factor, so the panel keeps
-  // the same outer edges as every other slide and the narrower type gains line
-  // length (fewer lines). A negative margin collapses the reclaimed height so
-  // the slide never becomes scrollable. On mobile it keeps its natural size and
-  // scrolls normally.
-  useIsoLayoutEffect(() => {
-    const section = sectionRef.current;
-    const panel = panelRef.current;
-    const inner = innerRef.current;
-    if (!section || !panel || !inner) return;
-
-    const fit = () => {
-      inner.style.transform = "none";
-      inner.style.width = "";
-      inner.style.marginBottom = "";
-
-      if (window.innerWidth < 768) return;
-
-      const cs = getComputedStyle(section);
-      const ps = getComputedStyle(panel);
-      const avail =
-        window.innerHeight -
-        (parseFloat(cs.paddingTop) || 0) -
-        (parseFloat(cs.paddingBottom) || 0) -
-        (parseFloat(ps.paddingTop) || 0) -
-        (parseFloat(ps.paddingBottom) || 0) -
-        8;
-
-      // Widening reflows the text shorter, so the scaled height is not linear
-      // in the scale: bisect for the largest scale whose content still fits.
-      const fits = (sc: number) => {
-        inner.style.width = sc < 1 ? `${100 / sc}%` : "";
-        return inner.offsetHeight * sc <= avail;
-      };
-      let scale = 1;
-      if (!fits(1)) {
-        let lo = 0.5;
-        let hi = 1;
-        for (let i = 0; i < 8; i++) {
-          const mid = (lo + hi) / 2;
-          if (fits(mid)) lo = mid;
-          else hi = mid;
-        }
-        scale = lo;
-        fits(scale);
-      }
-
-      if (scale < 1) {
-        const need = inner.offsetHeight;
-        inner.style.transformOrigin = "top left";
-        inner.style.transform = `scale(${scale})`;
-        inner.style.marginBottom = `-${Math.ceil(need - need * scale)}px`;
-      } else {
-        inner.style.width = "";
-      }
-    };
-
-    fit();
-    const raf = requestAnimationFrame(fit);
-    window.addEventListener("resize", fit);
-    let cancelled = false;
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => {
-        if (!cancelled) fit();
-      });
-    }
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", fit);
-    };
-  }, []);
-
+  // On desktop the panel scrolls internally when the content is taller than
+  // the screen (see #experience .deck-panel); on mobile the slide scrolls.
   return (
-    <section ref={sectionRef} id="experience" className="slide">
-      <div ref={panelRef} className="deck-panel">
-        <div ref={innerRef}>
-          <Reveal className="slide-head">
-            <p className="t-label">Experience</p>
-            <h2 className="t-h2">The Work</h2>
-          </Reveal>
+    <section id="experience" className="slide">
+      <div className="deck-panel">
+        <Reveal className="slide-head">
+          <p className="t-label">Experience</p>
+          <h2 className="t-h2">The Work</h2>
+        </Reveal>
 
-          <div className="exp-cols">
-            {entries.map((entry) => (
-              <EntryRow key={entry.company} entry={entry} />
-            ))}
-          </div>
+        <div className="exp-cols">
+          {entries.map((entry) => (
+            <EntryRow key={entry.company} entry={entry} />
+          ))}
         </div>
       </div>
     </section>

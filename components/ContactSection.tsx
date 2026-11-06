@@ -40,7 +40,7 @@ export default function ContactSection() {
   };
 
   const field =
-    "w-full font-body text-[14px] px-4 py-3 bg-transparent resize-none outline-none transition-colors duration-200";
+    "w-full font-body text-[15px] px-4 py-3 bg-transparent resize-none outline-none transition-colors duration-200";
   const fieldStyle = {
     border: "1px solid var(--border)",
     borderRadius: "3px",

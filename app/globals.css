@@ -135,8 +135,8 @@ body {
 }
 .t-small {
   font-family: var(--font-body);
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.7;
   color: var(--text-2);
   text-wrap: pretty;
 }
@@ -240,7 +240,7 @@ body {
   padding-left: 14px;
 }
 .exp-bullets li + li {
-  margin-top: 6px;
+  margin-top: 10px;
 }
 .exp-bullets li::before {
   content: "";
@@ -268,12 +268,15 @@ body {
     margin-right: 10px;
     color: var(--text-3);
   }
-  .exp-bullets .t-small {
-    font-size: 12.5px;
-    line-height: 1.5;
-  }
-  .exp-bullets li + li {
-    margin-top: 4px;
+  /* Larger type no longer fits one screen: the panel keeps its frame inside
+     the slide's padding and its content scrolls internally (the deck pages
+     only once the panel reaches its top or bottom edge). */
+  #experience .deck-panel {
+    max-height: calc(100dvh - 156px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
   }
 }
 @media (max-width: 767px) {

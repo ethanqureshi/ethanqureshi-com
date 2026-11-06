@@ -84,7 +84,7 @@ export default function ProjectsSection() {
                   {project.title}
                 </h3>
 
-                <p className="t-small mb-6 flex-1" style={{ fontSize: "14px" }}>
+                <p className="t-small mb-6 flex-1">
                   {project.description}
                 </p>
 
