@@ -267,16 +267,38 @@ body {
     margin-right: 10px;
     color: var(--text-3);
   }
+  /* Bullet size is fitted per screen by ExperienceSection (15px when it
+     fits, never below 12.5px) so the slide never scrolls on desktop. */
+  .exp-panel .exp-bullets .t-small {
+    font-size: var(--exp-fs, 15px);
+    line-height: 1.6;
+  }
+  .exp-panel .exp-bullets li + li {
+    margin-top: 0.5em;
+  }
 }
-/* Wide screens: Experience (split over two slides) takes a wider panel and
-   three columns so the full-size type fits one screen with no scrolling.
-   Date and role stack so neither wraps mid-phrase in the narrower columns. */
-@media (min-width: 1100px) {
+/* Wide screens: one row grid, four across, read left to right newest
+   first. The heading sits in the first cell so the whole section fits one
+   screen at a large type size. */
+@media (min-width: 1200px) {
   .exp-panel {
-    max-width: 1240px;
+    max-width: 1440px;
+  }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 22px;
+  }
+  .exp-grid > .slide-head {
+    margin-bottom: 0;
+    padding-top: 18px;
   }
   .exp-panel .exp-cols {
-    column-count: 3;
+    display: contents;
+  }
+  .exp-panel .exp-entry {
+    margin-bottom: 0;
   }
   .exp-panel .exp-meta {
     flex-direction: column;
@@ -286,7 +308,7 @@ body {
   }
 }
 /* Short laptop screens: trim the frame around the content (never the type
-   or its line-height) so each Experience slide still fits one screen. */
+   or its line-height) so Experience keeps the largest type that fits. */
 @media (min-width: 768px) and (max-height: 860px) {
   .exp-slide {
     padding-top: 74px;
@@ -308,13 +330,18 @@ body {
     padding: 24px 36px;
   }
 }
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
   .exp-slide {
-    padding-left: 32px;
-    padding-right: 32px;
+    padding: 74px 32px 58px;
   }
-  .exp-panel .exp-cols {
-    column-gap: 32px;
+  .exp-panel {
+    padding: 28px 40px;
+  }
+  .exp-grid {
+    row-gap: 18px;
+  }
+  .exp-grid > .slide-head {
+    margin-bottom: 0;
   }
 }
 @media (max-width: 767px) {

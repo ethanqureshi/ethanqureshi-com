@@ -1,6 +1,11 @@
 "use client";
 
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Reveal from "./Reveal";
+
+// useLayoutEffect on the client, useEffect on the server.
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface ExperienceEntry {
   /** Month-year range, e.g. "June 2025 to July 2025". */
@@ -135,53 +140,101 @@ function EntryRow({ entry }: { entry: ExperienceEntry }) {
   );
 }
 
-// Experience spans two deck slides so the full-size type fits one screen on
-// each without internal scrolling: the 2026 roles first, then earlier roles.
-const RECENT_COUNT = 4;
+// Largest and smallest bullet size (px) the desktop fit may use.
+const FS_MAX = 15;
+const FS_MIN = 12.5;
 
-function ExperienceSlide({
-  id,
-  heading,
-  list,
-}: {
-  id: string;
-  heading: string;
-  list: ExperienceEntry[];
-}) {
+export default function ExperienceSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // One slide, no scrolling, readable type. On desktop pick the largest
+  // bullet size (FS_MAX down to FS_MIN, a real font-size so text stays crisp)
+  // at which the whole panel fits the viewport. Only on screens too short for
+  // even FS_MIN (small laptops) does the content scale down the rest of the
+  // way, so the slide still never scrolls. Phones keep FS_MAX and scroll.
+  useIsoLayoutEffect(() => {
+    const section = sectionRef.current;
+    const panel = panelRef.current;
+    const grid = gridRef.current;
+    if (!section || !panel || !grid) return;
+
+    const fit = () => {
+      panel.style.removeProperty("--exp-fs");
+      grid.style.transform = "";
+      grid.style.width = "";
+      grid.style.marginBottom = "";
+      if (window.innerWidth < 768) return;
+      const cs = getComputedStyle(section);
+      const avail =
+        window.innerHeight -
+        (parseFloat(cs.paddingTop) || 0) -
+        (parseFloat(cs.paddingBottom) || 0);
+      const fits = (fs: number) => {
+        panel.style.setProperty("--exp-fs", `${fs}px`);
+        return panel.offsetHeight <= avail;
+      };
+      if (fits(FS_MAX)) return;
+      // Step down in quarter pixels until it fits (or the floor is reached).
+      let fs = FS_MAX;
+      while (fs > FS_MIN && !fits(fs - 0.25)) fs -= 0.25;
+      if (fits(Math.max(FS_MIN, fs - 0.25))) return;
+
+      // Last resort: scale the content, widening it by the same factor so
+      // the panel keeps its edges and the text reflows to fewer lines.
+      const room = avail - (panel.offsetHeight - grid.offsetHeight);
+      const fitsAt = (sc: number) => {
+        grid.style.width = `${100 / sc}%`;
+        return grid.offsetHeight * sc <= room;
+      };
+      let lo = 0.5;
+      let hi = 1;
+      for (let i = 0; i < 8; i++) {
+        const mid = (lo + hi) / 2;
+        if (fitsAt(mid)) lo = mid;
+        else hi = mid;
+      }
+      fitsAt(lo);
+      const need = grid.offsetHeight;
+      grid.style.transformOrigin = "top left";
+      grid.style.transform = `scale(${lo})`;
+      grid.style.marginBottom = `-${Math.ceil(need - need * lo)}px`;
+    };
+
+    fit();
+    const raf = requestAnimationFrame(fit);
+    window.addEventListener("resize", fit);
+    let cancelled = false;
+    document.fonts?.ready.then(() => {
+      if (!cancelled) fit();
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", fit);
+    };
+  }, []);
+
   return (
-    <section id={id} className="slide exp-slide">
-      <div className="deck-panel exp-panel">
-        <Reveal className="slide-head">
-          <p className="t-label">Experience</p>
-          <h2 className="t-h2">{heading}</h2>
-        </Reveal>
+    <section ref={sectionRef} id="experience" className="slide exp-slide">
+      <div ref={panelRef} className="deck-panel exp-panel">
+        {/* On wide screens .exp-grid is a 4-column row grid and the heading
+            takes the first cell, so no full-width header row eats height. */}
+        <div ref={gridRef} className="exp-grid">
+          <Reveal className="slide-head">
+            <p className="t-label">Experience</p>
+            <h2 className="t-h2">The Work</h2>
+          </Reveal>
 
-        <div className="exp-cols">
-          {list.map((entry) => (
-            <EntryRow key={entry.company} entry={entry} />
-          ))}
+          <div className="exp-cols">
+            {entries.map((entry) => (
+              <EntryRow key={entry.company} entry={entry} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-export default function ExperienceSection() {
-  return (
-    <ExperienceSlide
-      id="experience"
-      heading="The Work"
-      list={entries.slice(0, RECENT_COUNT)}
-    />
-  );
-}
-
-export function ExperienceSectionEarlier() {
-  return (
-    <ExperienceSlide
-      id="experience-2"
-      heading="Earlier Work"
-      list={entries.slice(RECENT_COUNT)}
-    />
   );
 }

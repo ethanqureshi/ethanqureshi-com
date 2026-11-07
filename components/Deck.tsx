@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Nav from "./Nav";
 import HeroSection from "./HeroSection";
 import BioSection from "./BioSection";
-import ExperienceSection, { ExperienceSectionEarlier } from "./ExperienceSection";
+import ExperienceSection from "./ExperienceSection";
 import ProjectsSection from "./ProjectsSection";
 import ContactSection from "./ContactSection";
 
@@ -12,7 +12,6 @@ const slides = [
   { id: "hero", Comp: HeroSection },
   { id: "bio", Comp: BioSection },
   { id: "experience", Comp: ExperienceSection },
-  { id: "experience-2", Comp: ExperienceSectionEarlier },
   { id: "projects", Comp: ProjectsSection },
   { id: "contact", Comp: ContactSection },
 ] as const;
@@ -22,7 +21,6 @@ const slides = [
 const slideBg: Record<string, string> = {
   bio: "/bg/bio.webp",
   experience: "/bg/experience.webp",
-  "experience-2": "/bg/experience.webp",
   projects: "/bg/projects.webp",
   contact: "/hero-dune.webp",
 };

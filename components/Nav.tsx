@@ -57,9 +57,7 @@ export default function Nav({ onNavigate, active }: NavProps = {}) {
   };
 
   const isActive = (id: Section) =>
-    deckMode
-      ? active === id || !!active?.startsWith(`${id}-`)
-      : isHome && scrollActive === id;
+    deckMode ? active === id : isHome && scrollActive === id;
 
   return (
     <nav
